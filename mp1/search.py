@@ -22,6 +22,8 @@ files and classes when code is run, so be careful to not modify anything else.
 # maze is a Maze object based on the maze from the file specified by input filename
 # searchMethod is the search method specified by --method flag (bfs,dfs,greedy,astar)
 
+from collections import deque
+
 def search(maze, searchMethod):
     return {
         "bfs": bfs,
@@ -32,6 +34,30 @@ def search(maze, searchMethod):
 
 
 def bfs(maze):
+    queue = deque()
+    parents = dict()
+    curNode = maze.getStart()
+    objectives = maze.getObjectives()
+    queue.append(curNode)
+    parents[curNode] = None
+    while(queue.count != 0):
+        curNode = queue.popleft()
+        if curNode in objectives:
+            break
+        for node in maze.getNeighbors(curNode[0], curNode[1]):
+            if node not in parents.keys():
+                queue.append(node)
+                parents[node] = curNode
+    if (curNode not in objectives):
+        return [], 0
+    else:
+        path = []
+        while(curNode != None):
+            path.append(curNode)
+            curNode = parents[curNode]
+        path.reverse()
+        return path, len(parents.keys())
+
     # TODO: Write your code here
     # return path, num_states_explored
     return [], 0
