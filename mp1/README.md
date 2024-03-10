@@ -17,7 +17,8 @@ usage: mp1.py [-h] [--method {bfs,dfs,greedy,astar}] [--scale SCALE]
               filename
 ```
 
-Examples of how to run MP1:
+Examples of how to run MP1:  
+**如何运行 MP1**:
 ```
 python mp1.py maps/bigMaze.txt --method dfs
 ```

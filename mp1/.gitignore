@@ -1,3 +1,6 @@
-/env
-/.vscode
-/__pycache__
+env/
+.vscode/
+__pycache__/
+README.md
+JHU_Test.py
+JHU_Test2.py

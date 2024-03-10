@@ -64,8 +64,47 @@ def bfs(maze):
 
 
 def dfs(maze):
-    # TODO: Write your code here
-    # return path, num_states_explored
+    # BFS思想 = 队列维护
+    # DFS思想 = 栈维护
+    # [B站讲解] https://www.bilibili.com/video/BV1Ks411579J/?spm_id_from=333.337.search-card.all.click&vd_source=4c878cdda4a827e2590557bcbb57b3e5
+
+    # 初始化 -------------------------------------------------------------
+    cur_node = maze.getStart()        # 获取 初始位置
+    objectives = maze.getObjectives() # 获取 终点位置
+
+    stack = []                        # 初始化栈      [使用数组]
+    parents = dict()                  # 初始化父节点  {使用字典}
+
+    stack.append(cur_node)            # 将初始位置加入栈
+    parents[cur_node] = None          # 初始位置没有父节点
+
+    # 搜索算法 -----------------------------------------------------------
+    while(stack.count != 0):          # 当栈不为空时,从栈顶 取出一个节点 (弹栈) 
+        cur_node = stack.pop()        
+
+        if cur_node in objectives:    # 如果现节点是终点 终止递归
+            break
+        
+        for sub_node in maze.getNeighbors(cur_node[0], cur_node[1]): # 遍历现节点的子节点，cur_node[0]是行，cur_node[1]是列
+            if sub_node not in parents.keys(): # 如果子节点不在父节点中
+                stack.append(sub_node)         # 将子节点加入栈顶
+                parents[sub_node] = cur_node   # 将子节点的父节点设置为现节点 在parent中创建名为node的key，其值为 cur_node
+
+                # cur_node  现节点
+                #    ↓
+                # sub_node  子节点
+
+    # 返还程序 -----------------------------------------------------------
+    if (cur_node not in objectives):
+        return [], 0
+    else:
+        path = []
+        while(cur_node != None):
+            path.append(cur_node)
+            cur_node = parents[cur_node]
+        path.reverse()
+        return path, len(parents.keys()) # 返回路径path和探索节点数量
+
     return [], 0
 
 
