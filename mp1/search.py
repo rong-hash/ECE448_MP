@@ -23,6 +23,7 @@ files and classes when code is run, so be careful to not modify anything else.
 # searchMethod is the search method specified by --method flag (bfs,dfs,greedy,astar)
 
 from collections import deque
+from heapq import heappop,heappush
 
 def search(maze, searchMethod):
     return {
@@ -58,21 +59,97 @@ def bfs(maze):
         path.reverse()
         return path, len(parents.keys())
 
-    # TODO: Write your code here
-    # return path, num_states_explored
-    return [], 0
-
-
 def dfs(maze):
+    objectives = maze.getObjectives()
+    unreachable = set()
+    stack = deque()
+    states = 1
+    def _dfs(stack:deque) -> bool:
+        nonlocal states
+        if (stack[-1] in objectives):
+            return True
+        else:
+            neighbors = maze.getNeighbors(stack[-1][0],stack[-1][1])
+            if (neighbors.count == 0):
+                    return False
+            else:
+                for neighbor in neighbors:
+                    if (stack.__contains__(neighbor) or neighbor in unreachable): continue
+                    stack.append(neighbor)
+                    states += 1
+                    rst = _dfs(stack)
+                    if (not rst): 
+                        stack.pop()
+                    else:
+                        return True
+                unreachable.add(stack[-1])
+                return False
+    stack.append(maze.getStart())
+    _dfs(stack)
     # TODO: Write your code here
     # return path, num_states_explored
-    return [], 0
+    return list(stack), states 
 
+
+def _prSearch(maze,costFun, objectives ):
+
+    class comparableCord():
+        def __init__(self, s:tuple) -> None:
+            self.cord = s
+        def __lt__(self, that) -> bool:
+            costSelf = costFun(self.cord)
+            costThat = costFun(that.cord)
+            if costSelf < costThat: return True
+            if (costSelf == costThat) and (self.cord[0] < that.cord[0]): return True
+            if (costSelf == costThat) and (self.cord[0] == that.cord[0])and (self[1].cord < that[1].cord): return True
+            return False  
+    class priorQueue:
+        def __init__(self) -> None:
+            self.queue = []
+            pass
+        def pop(self)->tuple:
+            return heappop(self.queue).cord
+        
+        def push(self,cord:tuple) -> None:
+            heappush(self.queue,comparableCord(cord))
+            return
+        def min(self) -> tuple:
+            return self.queue[0].cord
+        def isEmpty(self) -> bool:
+            return (self.queue.__len__() == 0)
+
+   
+    queue = priorQueue()
+    parents = dict()
+    curNode = maze.getStart()
+    queue.push(curNode)
+    parents[curNode] = None
+    while(not queue.isEmpty()):
+        curNode = queue.pop()
+        if curNode in objectives:
+            break
+        for node in maze.getNeighbors(curNode[0], curNode[1]):
+            if node not in parents.keys():
+                queue.push(node)
+                parents[node] = curNode
+    if (curNode not in objectives):
+        return [], 0
+    else:
+        path = []
+        while(curNode != None):
+            path.append(curNode)
+            curNode = parents[curNode]
+        path.reverse()
+        return path, len(parents.keys())
+    # TODO: Write your code here
+    # return path, num_states_explored
 
 def greedy(maze):
-    # TODO: Write your code here
-    # return path, num_states_explored
-    return [], 0
+    objectives = maze.getObjectives()
+    target = objectives[-1]
+    def heurf(point):
+        return abs(target[0]-point[0]) + abs(target[1]-point[1])
+    return _prSearch(maze,heurf,objectives)
 
 
 def astar(maze):
