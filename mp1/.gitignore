@@ -2,5 +2,5 @@ env/
 .vscode/
 __pycache__/
 README.md
-JHU_Test.py
-JHU_Test2.py
+README_JHU.md
+JHU_Test/
