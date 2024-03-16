@@ -89,26 +89,6 @@ def dfs(maze):
     # TODO: Write your code here
     # return path, num_states_explored
     return list(stack), states 
-
-class comparableCord():
-    def __init__(self, s:tuple, costFun, parent = None) -> None:
-        self.cord = s
-        self.parent = parent
-        if (parent != None):
-            self.dist = parent.dist + 1
-        else:
-            self.dist = 0
-        self.cost = costFun(self)
-    def __lt__(self, that) -> bool:
-        if self.cost < that.cost: return True
-        if (self.cost == that.cost) and (self.cord[0] < that.cord[0]): return True
-        if (self.cost == that.cost) and (self.cord[0] == that.cord[0]) and (self.cord[1] < that.cord[1]): return True
-        return False
-    def __hash__(self) -> int:
-        return hash(self.cord)
-    def __eq__(self, that) -> bool:
-        if (that == None): return False
-        return self.cord == that.cord
     
 class searchNode():
     def __init__(self, s:tuple, costFun, remain:tuple,  parent = None) -> None:
@@ -136,12 +116,12 @@ class priorQueue:
         self.itemset = set()
         return
 
-    def pop(self):
+    def pop(self)->searchNode:
         obj = heappop(self.queue)
         self.itemset.remove(obj)
         return obj
     
-    def push(self,cord) -> None:
+    def push(self,cord:searchNode) -> None:
         heappush(self.queue, cord)
         self.itemset.add(cord)
         return
@@ -152,37 +132,9 @@ class priorQueue:
     def isEmpty(self) -> bool:
         return (self.queue.__len__() == 0)
     
-    def contain(self,node) -> bool:
+    def contain(self,node:searchNode) -> bool:
         return self.itemset.__contains__(node)
         
-def _prSearch(maze,costFun, objective):   
-    queue = priorQueue()
-    explored = dict() #Serch Node -> Cost
-    curNode = comparableCord(maze.getStart(),costFun)
-    queue.push(curNode)
-    explored[curNode] = curNode.cost
-    while(not queue.isEmpty()):
-        curNode = queue.pop()
-        if curNode.cord in objective:
-            break
-        for node in maze.getNeighbors(curNode.cord[0], curNode.cord[1]):
-            nextNode = comparableCord(node, costFun, curNode)
-            if nextNode not in explored.keys():
-                queue.push(nextNode)
-            else:
-                if(nextNode.cost < explored[nextNode]):
-                    explored[nextNode] = nextNode.cost
-                    pass
-        explored[curNode] = curNode.cost
-    if (curNode.cord not in objective):
-        return [], 0
-    else:
-        path = []
-        while(curNode != None):
-            path.append(curNode.cord)
-            curNode = curNode.parent
-        path.reverse()
-        return path, len(explored)
 
 def _prSearchMulti(maze,costFun, objectives):   
     queue = priorQueue()

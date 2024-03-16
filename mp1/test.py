@@ -175,6 +175,7 @@ class Application:
                     self.drawWall(row, col)
 
 maps = ['bigMaze.txt','mediumMaze.txt','openMaze.txt']
+searchmaps = ['tinySearch.txt','smallSearch.txt','mediumSearch.txt']
 methods = ['astar','greedy','bfs','dfs']
 
 appobj = Application(human = False)
@@ -186,4 +187,9 @@ for i in maps:
     for j in methods:
         path, states = appobj.execute(f'maps/{i}',j, f'result/{i}-{j}.png')
         fd.write(f'{i}-{j}:path {path},state {states}\n')
+        fd.flush()
+for i in searchmaps:
+    path, states = appobj.execute(f'maps/{i}','astar', f'result/{i}-{j}.png')
+    fd.write(f'{i}-astar:path {path},state {states}\n')
+    fd.flush()
 fd.close()
