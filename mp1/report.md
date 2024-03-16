@@ -38,14 +38,31 @@ An explored states list is a collection that keeps track of all the nodes (or st
 
 This section focuses on the heuristic(s) used for A* and Greedy BFS, particularly for single-dot and multiple-dot scenarios.
 
-### Heuristics Description
 
-- **Single Dot Scenario:** Describe the heuristic(s) used and justify their selection.
-- **Multiple Dot Scenario:** Explain how the heuristic(s) are adapted or developed for handling multiple goals.
+### Heuristic(s) Used
 
-### Admissibility of Heuristics
+#### Greedy Best-First Search (Greedy BFS)
 
-- Provide proof or a strong argument for the admissibility of the heuristics used in A*.
+- **Heuristic:** The heuristic function used for Greedy BFS calculates the Manhattan distance from the current node to the target node (the last objective). It is defined as `abs(target[0]-point.cord[0]) + abs(target[1]-point.cord[1])`, where `target` represents the coordinates of the target node, and `point.cord` represents the coordinates of the current node.
+- **Single Dot Scenario:** In cases where there is only one dot (objective), this heuristic guides the search directly towards the goal, focusing solely on the distance to the goal without considering the cost of the path taken to reach that point.
+
+#### A* Search
+
+- **Heuristic:** The A* heuristic function combines the cost to reach the current node (`point.dist`, representing the distance from the start node to the current node) with the Manhattan distance to the target node. It is defined as `abs(target[0]-point.cord[0]) + abs(target[1]-point.cord[1]) + point.dist`.
+- **Single Dot Scenario:** The heuristic effectively estimates the total cost of the cheapest solution through the current node, balancing the cost of reaching the current node and the estimated cost to reach the goal.
+- **Multiple-Dot Situation:** `Needed to be finished by Xiaoyang`
+
+### Admissibility of the A* Heuristic
+
+A heuristic is admissible if it never overestimates the cost to reach the goal from any node in the search space. To prove the admissibility of the A* heuristic:
+
+1. **Manhattan Distance:** The use of Manhattan distance as part of the heuristic ensures admissibility in a grid maze where only horizontal and vertical movements are allowed, as it exactly matches the minimum possible cost to reach the target from the current node (assuming a cost of 1 per step and no obstacles directly between the current node and the target).
+
+2. **Path Cost Addition:** Adding the actual cost (`point.dist`) from the start node to the current node does not affect the admissibility because it is a concrete cost already incurred, not an estimate.
+
+3. **Total Heuristic:** The total A* heuristic (`abs(target[0]-point.cord[0]) + abs(target[1]-point.cord[1]) + point.dist`) is the sum of the exact cost incurred to reach the current node and the admissible estimate of the remaining cost to the target. Since neither component overestimates the true cost, the overall heuristic is admissible.
+
+In conclusion, the A* heuristic used in your implementation is admissible for the single dot scenario. For multiple-dot scenarios, while the heuristic remains admissible for reaching the final dot, the strategy does not inherently ensure an optimal path covering all dots, as it does not account for the necessity to visit each objective. 
 
 ---
 
@@ -91,14 +108,12 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 
 ---
 
-## Extra Credit
-
-If applicable, describe any additional work undertaken that you believe warrants extra credit.
-
----
 
 ## Statement of Contribution
-
+- Zhirong Chen: Write the report
+- Jiajun Hu: BFS, DFS
+- Xiaoyang Chu: A*, Greedy
+- Yanbing Hu: Greedy, Code Review
 
 ---
 
