@@ -1,6 +1,6 @@
 # MP1 Report
 
-- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (),  Yanbing Yang ()
+- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (),  Yanbing Yang (yanbing7)
 - **Date:** 3/17/2024
 
 ---
@@ -71,18 +71,64 @@ In conclusion, the A* heuristic used in your implementation is admissible for th
 Present the results for each algorithm across different mazes. Include screenshots of the mazes with computed paths, solution costs, and the number of expanded nodes.
 
 ### DFS Results
+- **Solution Cost and number of Expanded Nodes of DFS search trials:**
+<div align ="center">
+  
+  |Maze|mediumMaze|bigMaze|openMaze|
+  |:-:|:-:|:-:|:-:|
+  |Solution Cost|131|211|299|
+  |Number of Expanded Nodes|147|427|650|
+</div>
 
-- **Medium Maze:** (Image), Solution Cost, Number of Expanded Nodes
-- **Big Maze:** (Image), Solution Cost, Number of Expanded Nodes
-- **Open Maze:** (Image), Solution Cost, Number of Expanded Nodes
-
+- **Solution Graphs of DFS search trials:**
+<div align ="center">
+DFS search in mediumMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/ff1938de-dd42-49d6-a90d-217d00c65b5e width = "300" alt="image" /><br/><br/>
+DFS search in bigMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/5f752363-a2cf-45f6-8bd3-2eb37d54ab37 width = "300" alt="image" /><br/><br/>
+DFS search in openMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/fd5f8a8f-bffe-4cd9-98c2-77d80543f4ea width = "300" alt="image" /><br/><br/>
+</div>
+  
 ### BFS Results
+- **Solution Cost and number of Expanded Nodes of BFS search trials:**
+<div align ="center">
+  
+  |Maze|mediumMaze|bigMaze|openMaze|
+  |:-:|:-:|:-:|:-:|
+  |Solution Cost|69|211|55|
+  |Number of Expanded Nodes|270|620|683|
+</div>
 
-- (Repeat the structure used for DFS results)
+- **Solution Graphs of BFS search trials:**
+<div align ="center">
+BFS search in mediumMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/181e3f5d-545a-42bb-95e9-05000ae2ac0e width = "300" alt="image" /><br/><br/>
+BFS search in bigMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/9970e689-0b4b-4eba-87ef-96c953bd1054 width = "300" alt="image" /><br/><br/>
+BFS search in openMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/d80781e9-2c0d-4157-9006-2ebaf73c57f0 width = "300" alt="image" /><br/><br/>
+</div>
 
-### Greedy BFS Results
+### Greedy Results
+- **Solution Cost and number of Expanded Nodes of greedy search trials:**
+<div align ="center">
+  
+  |Maze|mediumMaze|bigMaze|openMaze|
+  |:----:|:----:|:----:|:----:|
+  |Solution Cost|153|211|55|
+  |Number of Expanded Nodes|158|457|212|
+</div>
 
-- (Repeat the structure used for DFS results)
+- **Solution Graphs of greedy search trials:**
+<div align ="center">
+Greedy search in mediumMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/db0cdb9b-0542-4164-97b2-0e23011fc5e2 width = "300" alt="image" /><br/><br/> 
+Greedy search in bigMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/2cba816c-6ef7-4fa2-9ddf-707d689c1c46 width = "300" alt="image" /><br/><br/>
+Greedy search in openMaze<br/>
+<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/7a49cd65-5f90-4501-aee3-9ad632e185ec width = "300" alt="image" /><br/><br/>
+</div>
 
 ### A* Results
 
@@ -113,7 +159,7 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 - Zhirong Chen: Write the report
 - Jiajun Hu: BFS, DFS
 - Xiaoyang Chu: A*, Greedy
-- Yanbing Hu: Greedy, Code Review
+- Yanbing Yang: Greedy, Code Review
 
 ---
 
