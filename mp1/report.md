@@ -11,22 +11,26 @@ In this section, we describe the algorithms and data structures used for impleme
 
 ### State and Node Representation
 
-- **State:** 
-- **Node:** 
+- **State:** In the context of your maze problem, a state represents the current condition or position within the maze. Specifically, it refers to a coordinate (x, y) indicating the location of the searcher (or agent) within the maze.  In both BFS and DFS implementations, a state is represented by the curNode or elements in the queue (for BFS) and stack (for DFS), which hold the current position in the maze.
+- **Node:** In search algorithms, a node often refers to an element of the search tree that includes not just the state but also additional information such as the path taken to reach that state, the cost of the path, and potentially other metadata.
+- **Difference:**  In BFS and DFS, the terms "node" and "state" are used interchangeably to refer to the position in the maze without additional metadata. Therefore, in this specific context, a node is essentially the same as a state.
 
-### Differences Between State and Node
-
-- Discuss the distinction between a state and a node in your implementations.
 
 ### Frontier Management
 
-- Describe the data structure(s) used to manage the frontier in each search strategy.
-- Explain any specific choices for data structures (e.g., stack, queue, priority queue) and their impact on the algorithm's performance.
+The frontier is the set of all leaf nodes available for expansion at any given point in the search process. It's the "boundary" between the explored and unexplored areas of the search space.
+- In BFS, the frontier is represented by the queue, which holds all the nodes that have been discovered but not yet explored.
+- In DFS, the frontier is managed through the stack, containing nodes that have been discovered but whose neighbors haven't all been explored yet.
 
 ### Explored States List
 
-- Detail how you maintain an explored states list, if applicable.
-- Explain the mechanism for detecting and managing repeated states.
+An explored states list is a collection that keeps track of all the nodes (or states) that have been visited and explored, to prevent revisiting and re-exploring the same nodes, which ensures the efficiency of the search.
+- In BFS, the parents dictionary serves a dual purpose: it maps each node to its parent (thereby implicitly tracking the path taken), and it also acts as a record of all nodes that have been visited (or explored), as nodes are added to parents once they are popped from the queue and processed.
+- In DFS, explored nodes are implicitly tracked through the stack and the unreachable set. The unreachable set specifically helps to avoid revisiting nodes that have been determined to lead to dead ends or have already been explored.
+
+### Repeated States Detection and Management
+- BFS: Repeated states are managed through the parents dictionary. Before a node is added to the queue (i.e., the frontier), it is checked against the keys of the parents dictionary to ensure it hasn't been visited before.
+- DFS: Repeated states are avoided by checking if a neighbor is already in the stack (which would indicate a loop) or if it is in the unreachable set (meaning it has been previously explored and found to lead to a dead end or has already been visited).
 
 ---
 
