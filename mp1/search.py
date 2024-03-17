@@ -208,14 +208,14 @@ def astar(maze):
             tpdict = L1Dist(objectives[i],objectives[j])
         dists[objectives[i]] = tpdict
     
-    def l1cost(point):
+    def l1cost(point): #Manhatton Distance as Heuristic Function
         return L1Dist(objectives[-1],point.cord) + point.dist
     
     def unicost(point):
         return point.dist
         #return point.dist
     
-    def mstcost(point):
+    def mstcost(point): #MST Heuristic for MultiDot Search
         queue = priorQueue()
         toconnect = set(point.remain)
         val = 0
@@ -232,6 +232,113 @@ def astar(maze):
             for j in toconnect:
                 queue.push(edge(othernode,j))
         return val+point.dist
-    return _prSearchMulti(maze,mstcost,objectives)
+    return _prSearchMulti(maze,mstcost,objectives) #Select Cost Function here
     # TODO: Write your code here
     # return path, num_states_explored
+
+
+
+
+# For bigDots.txt nonoptimal A* search:
+
+# 自定义返回 end_mode_list 中 h 最小的 end_node
+def min_h_end_node(cur_node, end_node_list):
+    h = []
+    for end_node in end_node_list:
+        h.append(abs(end_node[0] - cur_node[0]) + abs(end_node[1] - cur_node[1])) # 曼哈顿距离
+
+    min_h_end_node = end_node_list[h.index(min(h))]
+
+    return min_h_end_node
+
+# 自定义返回 exploring_list 中 h 最小的 node
+# 并将该 node 从open_node_list中删除
+def min_h_open_node(exploring_list, end_node, exploring_g):
+    f_list = []
+    for node in exploring_list:
+        h = abs(node[0] - end_node[0]) + abs(node[1] - end_node[1])
+        f = h + exploring_g[node]
+        f_list.append(f)
+    min_index = f_list.index(min(f_list))
+
+    return exploring_list.pop(min_index)
+
+# 自定义路径生成函数
+def build_path(cur_node, exploring_parent):
+    path = [cur_node]
+
+    # 若 Path 队尾节点父级不是 None → 继续构建
+    while exploring_parent[path[-1]] != None:
+        path.append(exploring_parent[path[-1]])
+    path.reverse()
+    return path
+
+# 自定义A*搜索算法
+# 算法思路：
+#   每次选取 h 最小的 end_node
+#   生成到该 end_node 的最短路径
+#   重复步骤 + 拼接路径
+def astar_nonoptimal(maze):
+
+    num_states_explored = 0
+    total_path = []
+
+    start_node    = maze.getStart()
+    end_node_list = maze.getObjectives()
+
+    # 找出距离最小的 作为end_node
+    end_node      = min_h_end_node(start_node, end_node_list)
+
+    exploring_list    = [start_node]       #存放 待探索坐标
+    exploring_parent  = {start_node:None}  #存放 待探索坐标父节点    
+    exploring_g       = {start_node:0}     #存放 待探索坐标g值
+    explored_list     = []                 #存放 已探索坐标
+
+    while exploring_list:
+
+        # 取出 exploring_list 中 f 值最小的节点探索
+        # 这里包含回溯，如果走进死胡同没有继续的子节点，就会从上一个岔路拿出节点
+        cur_node = min_h_open_node(exploring_list, end_node, exploring_g) # 第一次循环取出 cur_node = start_node
+        explored_list.append(cur_node)  #测试#
+        num_states_explored += 1
+
+        # 若找到 end_node，将其从end_node_list 中删除 + 构建 Path
+        # 这个 end_node 不一定是前面那个 h 最小的
+        if cur_node in end_node_list:
+            end_node_list.remove(cur_node)
+            
+            # 链表构建Path，这里的cur_node其实已经是一个 end_node了
+            # 去掉起点 添加折返路径
+            total_path = total_path[:-1] + build_path(cur_node,exploring_parent) 
+
+            # 若所有 end_node 经过，程序结束
+            if len(end_node_list) == 0:
+                # print("Overall path: ", total_path)
+                return total_path, num_states_explored
+            
+            # 找到一个 end_node 就重置 open_node_list，将 cur_node 作为新的起点
+            end_node   = min_h_end_node(cur_node, end_node_list)
+
+            exploring_list    = [cur_node]
+            exploring_parent  = {cur_node:None}
+            exploring_g       = {cur_node:0}
+            explored_list     = []
+
+        # 遍历 sub_node_list
+        sub_node_list = maze.getNeighbors(cur_node[0], cur_node[1])
+        for sub_node in sub_node_list:
+
+            # 若sub_node没探索过，将其加入 exploring_list   
+            if sub_node not in explored_list: 
+                for node in exploring_list:
+                    if sub_node == node and exploring_g[sub_node] < exploring_g[node]:
+                        exploring_list.append(sub_node)
+                        exploring_parent[sub_node] = cur_node
+                        exploring_g[sub_node] = exploring_g[cur_node] + 1
+                        break
+            if sub_node not in exploring_list and sub_node not in explored_list:   
+                exploring_parent[sub_node]   = cur_node
+                exploring_g[sub_node]        = exploring_g[cur_node] + 1
+                exploring_list.append(sub_node)
+
+    return [], 0
