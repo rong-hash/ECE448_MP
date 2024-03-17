@@ -187,7 +187,28 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 - Expanded Nodes: 212243
 
 ---
+## Extra Credit： 
+If you have done any work which you think should get extra credit, describe it here
 
+- To search for sub-optimal path, we considered A* algorithm using a non-admissible heuristic function. We use manhatten distance as our h(n), and we choose the objectives with minimum h(n) as our next target. Than we use the standard A* search method to find out the shortest path to this target and repeat the previous process till we go through all objectives. Compare with original A*, this non-admissable A* has a faster search speed. 
+  
+- The following are the picture and table for our algorithm result.
+  
+### BigDots Table & Picture
+
+<div align ="center">
+  
+  |BigDots  | none-admissable A*  |
+  |:----:|:----:|
+  |Path Length|326|
+  |States Explored|612|
+</div>
+
+<div align="center">
+  <img src="picture/bigDots-astar.png" alt="Big Dots" width = "300" title="Big Dots Image" />
+</div>
+
+---
 
 ## Statement of Contribution
 - Zhirong Chen: Write the report
