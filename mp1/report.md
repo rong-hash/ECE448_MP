@@ -1,6 +1,6 @@
 # MP1 Report
 
-- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (),  Yanbing Yang (yanbing7)
+- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (jiajunh5),  Yanbing Yang (yanbing7)
 - **Date:** 3/17/2024
 
 ---
@@ -129,6 +129,8 @@ BFS search in openMaze<br/>
   |Number of Expanded Nodes|158|457|212|
 </div>
 
+
+
 - **Solution Graphs of greedy search trials:**
 <div align ="center">
 Greedy search in mediumMaze<br/>
@@ -194,4 +196,6 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 - Yanbing Yang: Greedy, Code Review
 
 ---
+
+
 

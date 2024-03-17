@@ -1,1 +1,16 @@
 /.vscode
+**/env/
+**/.vscode/
+
+**/__pycache__/
+**/README.md
+**/README_JHU.md
+**/JHU_Test
+**/past.py
+**/maps/
+mp1/mst_utilities.py
+mp1/past.py
+mp1/search(2).py
+mp1/mp1.py
+mp1/search-1.py
+mp1/quick.sh

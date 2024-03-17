@@ -9,7 +9,7 @@
 # Modified by Rahul Kunji (rahulsk2@illinois.edu) on 01/16/2019
 
 """
-This is the main entry point for MP1. You should only modify code
+This is the main entry Node for MP1. You should only modify code
 within this file -- the unrevised staff files will be used for all other
 files and classes when code is run, so be careful to not modify anything else.
 """
@@ -33,23 +33,22 @@ def search(maze, searchMethod):
         "astar": astar,
     }.get(searchMethod)(maze)
 
-
 def bfs(maze):
     queue = deque()
     parents = dict()
     curNode = maze.getStart()
-    end_node = maze.getObjectives()
+    objectives = maze.getObjectives()
     queue.append(curNode)
     parents[curNode] = None
     while(queue.count != 0):
         curNode = queue.popleft()
-        if curNode in end_node:
+        if curNode in objectives:
             break
         for node in maze.getNeighbors(curNode[0], curNode[1]):
             if node not in parents.keys():
                 queue.append(node)
                 parents[node] = curNode
-    if (curNode not in end_node):
+    if (curNode not in objectives):
         return [], 0
     else:
         path = []
