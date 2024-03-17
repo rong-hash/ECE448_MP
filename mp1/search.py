@@ -90,6 +90,8 @@ def dfs(maze):
     # return path, num_states_explored
     return list(stack), states 
     
+def L1Dist(cordA,cordB):
+    return abs(cordA[0]-cordB[0]) + abs(cordA[1]-cordB[1])
 class searchNode():
     def __init__(self, s:tuple, costFun, remain:tuple,  parent = None) -> None:
         self.cord = s
@@ -110,18 +112,32 @@ class searchNode():
         if (that == None): return False
         return (self.cord == that.cord and self.remain == that.remain)
     
+class edge():
+    def __init__(self, cordA, cordB) -> None:
+        self.dist = L1Dist(cordA,cordB)
+        self.ends = {cordA, cordB}
+        pass
+    def other(self, cord):
+        if cord == self.ends[0]: return self.ends[1]
+        if (cord == self.ends[1]): return self.ends[0]
+        raise Exception("Not from the edge!")
+        return
+    def __lt__(self, that) -> bool:
+        if self.dist < that.dist: return True
+        return False
+    
 class priorQueue:
     def __init__(self) -> None:
         self.queue = []
         self.itemset = set()
         return
 
-    def pop(self)->searchNode:
+    def pop(self):
         obj = heappop(self.queue)
         self.itemset.remove(obj)
         return obj
     
-    def push(self,cord:searchNode) -> None:
+    def push(self,cord) -> None:
         heappush(self.queue, cord)
         self.itemset.add(cord)
         return
@@ -132,7 +148,7 @@ class priorQueue:
     def isEmpty(self) -> bool:
         return (self.queue.__len__() == 0)
     
-    def contain(self,node:searchNode) -> bool:
+    def contain(self,node) -> bool:
         return self.itemset.__contains__(node)
         
 
@@ -172,6 +188,8 @@ def _prSearchMulti(maze,costFun, objectives):
         path.reverse()
         return path, len(explored)
 
+
+
 def greedy(maze):
     objectives = maze.getObjectives()
     target = objectives[-1]
@@ -182,13 +200,39 @@ def greedy(maze):
 
 def astar(maze):
     objectives = maze.getObjectives()
-    target = objectives[-1]
-    def cost(point):
-        return abs(target[0]-point.cord[0]) + abs(target[1]-point.cord[1]) + point.dist
+
+    dists = dict()
+    for i in range(len(objectives)):
+        tpdict = dict()
+        for j in range(len(objectives)):
+            if i == j: continue
+            tpdict = L1Dist(objectives[i],objectives[j])
+        dists[objectives[i]] = tpdict
+    
+    def l1cost(point):
+        return L1Dist(objectives[-1],point.cord) + point.dist
     
     def unicost(point):
         return point.dist
         #return point.dist
-    return _prSearchMulti(maze,unicost,objectives)
+    
+    def mstcost(point):
+        queue = priorQueue()
+        toconnect = set(point.remain)
+        val = 0
+        for i in point.remain:
+            queue.push(edge(point.cord,i))
+        while (len(toconnect) != 0):
+            stedge = queue.pop()
+            expnodes = toconnect.intersection(stedge.ends)
+            if len(expnodes) == 0: continue
+            for j in expnodes: othernode = j
+            #Connect
+            toconnect.remove(othernode)
+            val += stedge.dist
+            for j in toconnect:
+                queue.push(edge(othernode,j))
+        return val+point.dist
+    return _prSearchMulti(maze,mstcost,objectives)
     # TODO: Write your code here
     # return path, num_states_explored
