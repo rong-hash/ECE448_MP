@@ -1,0 +1,15 @@
+bigMaze.txt-astar:path 211,state 549
+bigMaze.txt-greedy:path 211,state 469
+bigMaze.txt-bfs:path 211,state 623
+bigMaze.txt-dfs:path 211,state 431
+mediumMaze.txt-astar:path 69,state 221
+mediumMaze.txt-greedy:path 153,state 155
+mediumMaze.txt-bfs:path 69,state 272
+mediumMaze.txt-dfs:path 235,state 270
+openMaze.txt-astar:path 55,state 226
+openMaze.txt-greedy:path 61,state 88
+openMaze.txt-bfs:path 55,state 684
+openMaze.txt-dfs:path 391,state 684
+tinySearch.txt-astar:path 28,state 580
+smallSearch.txt-astar:path 35,state 438
+mediumSearch.txt-astar:path 169,state 212243
