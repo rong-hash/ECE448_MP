@@ -54,8 +54,8 @@ This section focuses on the heuristic(s) used for A* and Greedy BFS, particularl
   > **Proof:**
   > Given current coordinate $p$ and a set $U$ containing $S(U)$ destinations that has not yet been explored. Define $L(a,b)$ as the Manhattan distance between point $a$ and pont $b$. Define $I(a,b)$ as the shortest distance in the maze connnecting point $a$ and $b$. We have $L(a,b) \leq I(a,b)$.
   > Define a fully connnected undirected graph $G$ with verticle set $V=\{p\}\cup U$ and edge set $E$. Each pair of vertices $(v_i,v_j)$ are connected by a edge $e_k$ with weight $W(e_k) = I(v_i,v_j)$. Let $T$ to be a MST over the graph $G$.
-  > Define the summed weight of a graph $$W(G)=\sum_{e_i\in E}{W(e_i)}$$Define $\Omega$ as the set of all the connected subgraph over the graph $G$.
-  > According to the definition of MST, we have $$ \forall k \in \Omega,  W(T)\leq W(k)$$ 
+  > Define the summed weight of a graph $$W(G)=\sum_{e_i\in E}{W(e_i)}$$ Define $\Omega$ as the set of all the connected subgraph over the graph $G$.
+  > According to the definition of MST, we have $$\forall k \in \Omega,  W(T)\leq W(k)$$ 
   > Define $s$ to be the shortest path in the maze connecting every vertice. By definition $s \in \Omega$
   >Hence, we have $W(T) \leq W(s)$.
   >In our heuristic function, we use the L1 distance instead of the actual shortest path between two nodes in the maze. As we argued above, $\forall v_i\in V$ and $\forall v_j \in V$, $L(v_i,v_j)\leq I(v_1,v_2)$. We define $G'$ to be another fully connected undirected graph with vertices set $V' = V$ and $E'$, $W(e_k)=L(v_i,v_j)$ and a minimum spanning tree $T'$ over graph $G'$. Let $T''$ to be the subgraph that is the same as $T$ except that $W(T'')$ is assigned by the function $L(a,b)$. We define the heuristc function as follows $$h(p)= W(T')$$ and $$h(p) = W(T') \leq W(T'')\leq W(T) \leq s$$
