@@ -9,7 +9,7 @@
 # Modified by Rahul Kunji (rahulsk2@illinois.edu) on 01/16/2019
 
 """
-This is the main entry point for MP1. You should only modify code
+This is the main entry Node for MP1. You should only modify code
 within this file -- the unrevised staff files will be used for all other
 files and classes when code is run, so be careful to not modify anything else.
 """
@@ -30,25 +30,26 @@ def search(maze, searchMethod):
         "dfs": dfs,
         "greedy": greedy,
         "astar": astar,
+        "extra":test,
+        "extra2":test2
     }.get(searchMethod)(maze)
-
 
 def bfs(maze):
     queue = deque()
     parents = dict()
     curNode = maze.getStart()
-    end_node = maze.getObjectives()
+    objectives = maze.getObjectives()
     queue.append(curNode)
     parents[curNode] = None
     while(queue.count != 0):
         curNode = queue.popleft()
-        if curNode in end_node:
+        if curNode in objectives:
             break
         for node in maze.getNeighbors(curNode[0], curNode[1]):
             if node not in parents.keys():
                 queue.append(node)
                 parents[node] = curNode
-    if (curNode not in end_node):
+    if (curNode not in objectives):
         return [], 0
     else:
         path = []
@@ -58,223 +59,520 @@ def bfs(maze):
         path.reverse()
         return path, len(parents.keys())
 
-    # TODO: Write your code here
-    # return path, num_states_explored
-    return [], 0
-
-
-# def dfs(maze):
-#     # BFS思想 = 队列维护
-#     # DFS思想 = 栈维护
-#     # [B站讲解] https://www.bilibili.com/video/BV1Ks411579J/?spm_id_from=333.337.search-card.all.click&vd_source=4c878cdda4a827e2590557bcbb57b3e5
-
-#     # 初始化 -------------------------------------------------------------
-#     cur_node      = maze.getStart()        # 获取 初始位置
-#     end_node_list = maze.getObjectives()   # 获取 终点位置 列表
-
-#     print(end_node_list)
-
-#     path = []                         # 初始化栈   
-#     parents = dict()                  # 初始化父节点 
-
-#     path.append(cur_node)             # 将初始位置加入栈
-#     parents[cur_node] = None          # 初始位置没有父节点
-
-#     # 搜索算法 -----------------------------------------------------------
-#     while(path.count != 0):           # 当栈不为空时,从栈顶 取出一个节点 (弹栈) 
-#         cur_node = path.pop()        
-
-#         # 如果是当前位置是终点，从终点列表中删除
-#         # 如果终点列表为空，结束搜索
-#         if cur_node in end_node_list:      
-#             end_node_list.remove(cur_node) 
-#             print(end_node_list)
-
-#             if len(end_node_list) == 0:  
-#                 end_node_list = maze.getObjectives()  # 主要给最后判断服务
-#                 break
-
-#         # 遍历现节点的子节点
-#         #   若sub_node没探索过 (不在 parents.key 中)
-#         #   将sub_node加入栈顶
-#         #   将sub_node的父节点设置为cur_node
-#         for sub_node in maze.getNeighbors(cur_node[0], cur_node[1]): 
-#             if sub_node not in parents.keys(): 
-#                 path.append(sub_node)          
-#                 parents[sub_node] = cur_node   
-
-#     # 返还程序 -----------------------------------------------------------
-#     if (cur_node not in end_node_list):
-#         return [], 0
-#     else:
-#         path = []
-#         while(cur_node != None):
-#             path.append(cur_node)
-#             cur_node = parents[cur_node]
-#         path.reverse()
-#         return path, len(parents.keys()) # 返回路径path和探索节点数量
-
-#     return [], 0
 
 def dfs(maze):
-    start_node = maze.getStart()          # 获取初始位置
-    end_node_list = maze.getObjectives()  # 获取终点位置列表
-    visited_end_nodes = set()             # 已访问的终点集合
-    total_path = []                       # 最终路径
-    total_visited = set()                 # 所有访问过的节点集合
+    objectives = maze.getObjectives()
+    unreachable = set()
+    stack = deque()
+    states = 1
+    def _dfs(stack:deque) -> bool:
+        nonlocal states
+        if (stack[-1] in objectives):
+            return True
+        else:
+            neighbors = maze.getNeighbors(stack[-1][0],stack[-1][1])
+            if (neighbors.count == 0):
+                    return False
+            else:
+                for neighbor in neighbors:
+                    if (stack.__contains__(neighbor) or neighbor in unreachable): continue
+                    stack.append(neighbor)
+                    states += 1
+                    rst = _dfs(stack)
+                    if (not rst): 
+                        stack.pop()
+                    else:
+                        return True
+                unreachable.add(stack[-1])
+                return False
+    stack.append(maze.getStart())
+    _dfs(stack)
+    # TODO: Write your code here
+    # return path, num_states_explored
+    return list(stack), states 
 
-    # 从当前节点到下一个目标节点的DFS搜索
-    def dfs_to_next(cur_node, end_node):
-        path = []  # 初始化栈
-        parents = dict()  # 初始化父节点
 
-        path.append(cur_node)  # 将当前节点加入栈
-        parents[cur_node] = None  # 当前节点没有父节点
 
-        while path:
-            cur_node = path.pop()
 
-            if cur_node == end_node:  # 找到目标节点
+
+def L1Dist(cordA,cordB):
+    return abs(cordA[0]-cordB[0]) + abs(cordA[1]-cordB[1])
+class searchNode():
+    def __init__(self, s:tuple, costFun, remain:tuple,  parent = None) -> None:
+        self.cord = s
+        self.parent = parent
+        self.remain = remain
+        if (parent != None):
+            self.dist = parent.dist + 1
+        else:
+            self.dist = 0
+        self.cost = costFun(self)
+    def __lt__(self, that) -> bool:
+        if self.cost < that.cost: return True
+        if (self.cost == that.cost) and (self.__hash__())<hash(that.__hash__()): return True #Break Tie
+        return False
+    def __hash__(self) -> int:
+        return hash(self.cord)^hash(self.remain)
+    def __eq__(self, that) -> bool:
+        if (that == None): return False
+        return (self.cord == that.cord and self.remain == that.remain)
+    
+class edge():
+    def __init__(self, cordA, cordB) -> None:
+        self.dist = L1Dist(cordA,cordB)
+        self.ends = {cordA, cordB}
+        pass
+    def other(self, cord):
+        if cord == self.ends[0]: return self.ends[1]
+        if (cord == self.ends[1]): return self.ends[0]
+        raise Exception("Not from the edge!")
+        return
+    def __lt__(self, that) -> bool:
+        if self.dist < that.dist: return True
+        return False
+    
+class priorQueue:
+    def __init__(self) -> None:
+        self.queue = []
+        self.itemset = set()
+        return
+
+    def pop(self):
+        obj = heappop(self.queue)
+        self.itemset.remove(obj)
+        return obj
+    
+    def push(self,cord) -> None:
+        heappush(self.queue, cord)
+        self.itemset.add(cord)
+        return
+    
+    def min(self):
+        return self.queue[0]
+    
+    def isEmpty(self) -> bool:
+        return (self.queue.__len__() == 0)
+    
+    def contain(self,node) -> bool:
+        return self.itemset.__contains__(node)
+        
+
+def _prSearchMulti(maze,costFun, objectives):   
+    queue = priorQueue()
+    explored = dict() #Serch Node -> Cost
+
+    remainSet = tuple(objectives)
+    curNode = searchNode(maze.getStart(),costFun, remainSet)
+
+    queue.push(curNode)
+    explored[curNode] = curNode.cost
+    while(not queue.isEmpty()):
+        curNode = queue.pop()
+        remainSet = set(curNode.remain)
+        if curNode.cord in remainSet:
+            remainSet.remove(curNode.cord)
+            if (len(remainSet) == 0):
                 break
-
-            # 遍历当前节点的子节点
-            for sub_node in maze.getNeighbors(cur_node[0], cur_node[1]):
-                if sub_node not in parents.keys():  # 若sub_node没探索过
-                    path.append(sub_node)  # 将sub_node加入栈顶
-                    parents[sub_node] = cur_node  # 设置父节点
-
-        # 回溯以构建路径
-        cur_path = []
-        while cur_node:
-            cur_path.append(cur_node)
-            cur_node = parents[cur_node]
-        cur_path.reverse()
-
-        return cur_path
-
-    cur_node = start_node
-
-    # 若不是所有 end_node 都访问过，则继续循环
-    while len(visited_end_nodes) < len(end_node_list):
-        nearest_end_node = None
-        nearest_path     = None
-
-        # 寻找最近的未访问目标点
-        for end_node in end_node_list:
-            if end_node not in visited_end_nodes:
-                path = dfs_to_next(cur_node, end_node)
-                
-                if nearest_end_node is None or len(path) < len(nearest_path):
-                    nearest_end_node = end_node
-                    nearest_path = path
-
-        # 更新总路径和访问过的节点
-        if nearest_path:
-            total_path.extend(nearest_path[1:])     # 排除起点重复
-            visited_end_nodes.add(nearest_end_node)
-            total_visited.update(nearest_path)
-            cur_node = nearest_end_node
-
-    return total_path, len(total_visited)
+        for node in maze.getNeighbors(curNode.cord[0], curNode.cord[1]):
+            nextNode = searchNode(node, costFun, tuple(remainSet), curNode)
+            if (nextNode not in explored.keys()):
+                if (not queue.contain(nextNode)): queue.push(nextNode)
+            else:
+                if(nextNode.cost < explored[nextNode]):
+                    explored.__delitem__(nextNode)
+                    queue.push(nextNode)
+                    pass
+        explored[curNode] = curNode.cost
+    if (len(remainSet) != 0):
+        return [], 0
+    else:
+        path = []
+        while(curNode != None):
+            path.append(curNode.cord)
+            curNode = curNode.parent
+        path.reverse()
+        return path, len(explored)
 
 
 
 def greedy(maze):
-    # TODO: Write your code here
-    # return path, num_states_explored
+    objectives = maze.getObjectives()
+    target = objectives[-1]
+    def cost(point):
+        return abs(target[0]-point.cord[0]) + abs(target[1]-point.cord[1])
+    return _prSearchMulti(maze,cost,objectives)
+
+
+
+
+
+
+
+
+
+# LZP 的魔改 A*
+
+# 自定义返回 end_mode_list 中 h 最小的 end_node
+def min_h_end_node(cur_node, end_node_list):
+    h = []
+    for end_node in end_node_list:
+        h.append(abs(end_node[0] - cur_node[0]) + abs(end_node[1] - cur_node[1])) # 曼哈顿距离
+
+    min_h_end_node = end_node_list[h.index(min(h))]
+
+    return min_h_end_node
+
+# 自定义返回 exploring_list 中 h 最小的 node
+# 并将该 node 从open_node_list中删除
+def min_h_open_node(exploring_list, end_node, exploring_g):
+    f_list = []
+    for node in exploring_list:
+        h = abs(node[0] - end_node[0]) + abs(node[1] - end_node[1])
+        f = h + exploring_g[node]
+        f_list.append(f)
+    min_index = f_list.index(min(f_list))
+
+    return exploring_list.pop(min_index)
+
+# 自定义路径生成函数
+def build_path(cur_node, exploring_parent):
+    path = [cur_node]
+
+    # 若 Path 队尾节点父级不是 None → 继续构建
+    while exploring_parent[path[-1]] != None:
+        path.append(exploring_parent[path[-1]])
+    path.reverse()
+    return path
+
+# 自定义A*搜索算法
+# 算法思路：
+#   每次选取 h 最小的 end_node
+#   生成到该 end_node 的最短路径
+#   重复步骤 + 拼接路径
+def test2(maze):
+
+    num_states_explored = 0
+    total_path = []
+
+    start_node    = maze.getStart()
+    end_node_list = maze.getObjectives()
+
+    # 找出距离最小的 作为end_node
+    end_node      = min_h_end_node(start_node, end_node_list)
+
+    exploring_list    = [start_node]       #存放 待探索坐标
+    exploring_parent  = {start_node:None}  #存放 待探索坐标父节点    
+    exploring_g       = {start_node:0}     #存放 待探索坐标g值
+    explored_list     = []                 #存放 已探索坐标
+
+    while exploring_list:
+
+        # 取出 exploring_list 中 f 值最小的节点探索
+        # 这里包含回溯，如果走进死胡同没有继续的子节点，就会从上一个岔路拿出节点
+        cur_node = min_h_open_node(exploring_list, end_node, exploring_g) # 第一次循环取出 cur_node = start_node
+        explored_list.append(cur_node)  #测试#
+        num_states_explored += 1
+
+        # 若找到 end_node，将其从end_node_list 中删除 + 构建 Path
+        # 这个 end_node 不一定是前面那个 h 最小的
+        if cur_node in end_node_list:
+            end_node_list.remove(cur_node)
+            
+            # 链表构建Path，这里的cur_node其实已经是一个 end_node了
+            # 去掉起点 添加折返路径
+            total_path = total_path[:-1] + build_path(cur_node,exploring_parent) 
+
+            # 若所有 end_node 经过，程序结束
+            if len(end_node_list) == 0:
+                # print("Overall path: ", total_path)
+                return total_path, num_states_explored
+            
+            # 找到一个 end_node 就重置 open_node_list，将 cur_node 作为新的起点
+            end_node   = min_h_end_node(cur_node, end_node_list)
+
+            exploring_list    = [cur_node]
+            exploring_parent  = {cur_node:None}
+            exploring_g       = {cur_node:0}
+            explored_list     = []
+
+        # 遍历 sub_node_list
+        sub_node_list = maze.getNeighbors(cur_node[0], cur_node[1])
+        for sub_node in sub_node_list:
+
+            # 若sub_node没探索过，将其加入 exploring_list   # 这里存在逻辑错误???????????????????????????????????????????
+            if sub_node not in explored_list: 
+                for node in exploring_list:
+                    if sub_node == node and exploring_g[sub_node] < exploring_g[node]:
+                        exploring_list.append(sub_node)
+                        exploring_parent[sub_node] = cur_node
+                        exploring_g[sub_node] = exploring_g[cur_node] + 1
+                        break
+            if sub_node not in exploring_list and sub_node not in explored_list:   
+                exploring_parent[sub_node]   = cur_node
+                exploring_g[sub_node]        = exploring_g[cur_node] + 1
+                exploring_list.append(sub_node)
+
     return [], 0
 
 
 
 
-
-
-
-# 定义 Node 类
+# 我自己的 A* 算法
 class Node:
-    def __init__(self, parent=None, position=None): # Node 包含 parent,position,g,h,f
-        self.parent = parent
+    def __init__(self, parent=None, position=None, end_node_list = []):
+        self.parent   = parent
         self.position = position
+        self.g = 0  # 从起点到当前节点的成本
+        self.h = 0  # 从当前节点到终点的启发式成本
+        self.f = 0  # 总成本
+        self.target = end_node_list # 终点列表
 
-        self.g = 0
-        self.h = 0
-        self.f = 0
+    def load(self,cur_node,heristic_func):
+        self.h = heristic_func(self)
+        self.g = cur_node.g + 1
+        self.f = self.g + self.h
 
-    # def __eq__(self, other): # 判断两个节点位置是否相同
-    #     return self.position == other.position
-    
     def __eq__(self, other):
-        if other is None:
-            return False
         return self.position == other.position
 
+def heristic_func(node):
+    end_node_list = node.target
+    return min([abs(node.position[0] - end.position[0]) + abs(node.position[1] - end.position[1]) for end in end_node_list])
+    #return 0
 
-# 注意下边的 node 代表节点结构体，节点位置为 node.position
-def astar(maze):
-    # 初始化 ---------------------------------------------------`----------
-    open_list  = []
-    close_list = []
+def reconstruct_path(cur_node):
+    path = []
+    while cur_node is not None:
+        path.append(cur_node.position)
+        cur_node = cur_node.parent
+    path.reverse()  # 将路径反转，从起点开始
+    return path
 
-    start_pos = maze.getStart()           # 获取 起点
-    end_pos   = maze.getObjectives()[0]   # 获取 终点  # 先测试走一个终点的
+def single_astar_search(start_node, end_node_list, maze):
+    exploring_list = [start_node]  # 待探索的节点
+    explored_list  = []            # 已探索的节点
 
-    start_node = Node(None, start_pos)    # 起点 结构体 f()=g()=h()=0
-    end_node   = Node(None, end_pos)      # 终点 结构体
-
-    open_list.append(start_node)          # 将起点加入 open list
-
-    # 测试接口
-    print('-----------------')
-    print('start_pos           =' + str(start_pos))
-    print('start_node.position =' + str(start_node.position))
-    print('end_pos             =' + str(end_pos))
-    print('end_node.position   =' + str(end_node.position))
-    print(start_node.parent)
-
-    count = 1
-    # 搜索算法 -------------------------------------------------------------
-    while(open_list):
-
-        # 从 open_list 中选取优先级最高的节点 作为cur_node探索
-        # 将探索过的 cur_node 添加到 close_list 中
-        open_list.sort(key=lambda x: x.f) 
-        cur_node = open_list.pop(0)
-        close_list.append(cur_node)
-
-        # 如果现节点是终点 终止递归, 注意 终点可能有几个 ？
-        if cur_node.position == end_node.position:    
-            break
+    while exploring_list:
         
-        children = []
+        # 优先级排序
+        exploring_list.sort(key=lambda x: x.f)
+        cur_node = exploring_list.pop(0)
 
-        # 遍历 cur_node 的子节点，将坐标与父节点打包成 Node 数据类型
-        for sub_node_position in maze.getNeighbors(cur_node.position[0], cur_node.position[1]): 
+        # 检查是否到达了 end_node_list 中的任何一个节点
+        for end_node in end_node_list:
+            if cur_node == end_node:
+                return reconstruct_path(cur_node), len(explored_list)
+
+        explored_list.append(cur_node)
+
+        # 遍历子节点
+        for sub_node_position in maze.getNeighbors(cur_node.position[0], cur_node.position[1]):
             
-            sub_node = Node(cur_node, sub_node_position) 
-            sub_node.g = cur_node.g + 1
-            sub_node.h = abs(sub_node.position[0] - end_node.position[0]) + abs(sub_node.position[1] - end_node.position[1]) # 启发式函数 h(n) 这里采用曼哈顿距离
-            sub_node.f = sub_node.g + sub_node.h
+            # 打包 sub_node 数据类型
+            sub_node = Node(cur_node, sub_node_position,end_node_list)
+            sub_node.load(cur_node,heristic_func)
 
-            if sub_node in close_list: 
+            # A* 核心逻辑
+
+            # 若子节点 已探索 → 跳过
+            if sub_node in explored_list:
                 continue
+            
+            # 若子节点 未探索
+            # 若子节点 不在待探索列表 → 添加
+            # 若子节点 在待探索列表 → 比较 g
+            if sub_node not in exploring_list:
+                if sub_node not in exploring_list:
+                    exploring_list.append(sub_node)
+                if sub_node in exploring_list:
+                    for node in exploring_list:
+                        if node.position == sub_node.position and node.g > sub_node.g:
+                            node.g = sub_node.g
+                            node.parent = sub_node.parent
+                            continue
 
-            # 判断 sub_node 位置是否与 open_list 中的某些未探索节点相同 + 比较 sub_node 与 open list 中的这个节点的 g(n)
-            # 如果 位置相同 + g(n)更小 → 添加到 open_list中
-            if any([open_node for open_node in open_list if sub_node == open_node and sub_node.g > open_node.g]): 
-                continue
+    return []
 
-            open_list.append(sub_node)        
+def test(maze):
+    start_pos = maze.getStart()
+    end_pos_list = maze.getObjectives()
+
+    total_path = []
+    total_explored_nodes = 0
+
+    start_node    = Node(None, start_pos)
+    end_node_list = [Node(None, pos) for pos in end_pos_list]
+
+    while end_node_list:
+        path, explored_nodes = single_astar_search(start_node, end_node_list, maze)
+        if path:
+            total_path.extend(path[1:])        # 避免重复添加起始节点
+            total_explored_nodes += explored_nodes
+            start_node = Node(None, path[-1])  # 更新起始点为最近找到的终点
+            end_node_list.remove(start_node)   # 从目标列表中移除已达到的目标
+
+    return total_path, total_explored_nodes
+
+
+
+
+
+
+
+
+
+
+
+
+
+from collections import deque
+from heapq import heappop,heappush
+
+class Node_t():
+    def __init__(self, s:tuple, costFunc, remain:tuple,  parent = None) -> None:
+        self.cord = s
+        self.parent = parent
+        self.remain = remain
+        if (parent != None):
+            self.dist = parent.dist + 1
+        else:
+            self.dist = 0
+        self.cost = costFunc(self)
+    
+    # less than
+    def __lt__(self, that) -> bool:
+        if self.cost < that.cost: return True
+        if (self.cost == that.cost) and (self.__hash__())<hash(that.__hash__()): return True #Break Tie
+        return False
+    
+    def __hash__(self) -> int:
+        return hash(self.cord)^hash(self.remain)
+    
+    # ==
+    def __eq__(self, that) -> bool:
+        if (that == None): return False
+        return (self.cord == that.cord and self.remain == that.remain)
+
+
+class priorQueue:
+    def __init__(self) -> None:
+        self.queue = []
+        self.itemset = set()
+        return
+
+    def pop(self)->Node_t:
+        obj = heappop(self.queue)
+        self.itemset.remove(obj)
+        return obj
+    
+    def push(self,cord:Node_t) -> None:
+        heappush(self.queue, cord)
+        self.itemset.add(cord)
+        return
+    
+    def min(self):
+        return self.queue[0]
+    
+    def isEmpty(self) -> bool:
+        return (self.queue.__len__() == 0)
+    
+    def ifcontain(self,Node_t:Node_t) -> bool:
+        return self.itemset.__contains__(Node_t)
         
-    # 返还程序 -----------------------------------------------------------
-    if (cur_node != end_node): # if (cur_node not in end_node): 原始代码
+
+def _prSearchMulti(maze,costFunc, objectives):   
+    
+    # 初始化优先级队列
+    queue = priorQueue()
+    explored = dict() #Serch Node_t -> Cost
+
+    remainSet = tuple(objectives)
+    cur_Node = Node_t(maze.getStart(),costFunc, remainSet)
+
+    # 加入curNode
+    queue.push(cur_Node)                 # 未探索 队列
+    explored[cur_Node] = cur_Node.cost   # 已探索 存放已探索节点的g
+    while(not queue.isEmpty()):
+
+        cur_Node = queue.pop()
+        remainSet = set(cur_Node.remain)
+
+        # 找到一个终点
+        if cur_Node.cord in remainSet:
+            remainSet.remove(cur_Node.cord)
+
+            # 找到所有终点
+            if (len(remainSet) == 0):
+                break
+
+        # 遍历子节点
+        for sub_node_cord in maze.getNeighbors(cur_Node.cord[0], cur_Node.cord[1]):
+            sub_Node = Node_t(sub_node_cord, costFunc, tuple(remainSet), cur_Node) # 打包数据类型
+
+            # 若sub_Node 没探索过 + 不在探索队列中 → 添加到队列
+            if (sub_Node not in explored.keys()):
+                if (not queue.ifcontain(sub_Node)): queue.push(sub_Node)
+            
+            # 若sub_Node 探索过 + g更小 → 更新g
+            else:
+                if(sub_Node.cost < explored[sub_Node]):
+                    explored.__delitem__(sub_Node)
+                    queue.push(sub_Node)
+                    pass
+        explored[cur_Node] = cur_Node.cost
+    
+
+    # 重构路径
+    if (len(remainSet) != 0):
         return [], 0
     else:
         path = []
-        while(cur_node.parent != None):
-            path.append(cur_node.position)
-            cur_node = cur_node.parent   # 链表
+        while(cur_Node != None):
+            path.append(cur_Node.cord)
+            cur_Node = cur_Node.parent
         path.reverse()
+        return path, len(explored)
 
-        return path, len(close_list)     # 测试
-        # return path, len(parents.keys()) # 返回路径path和探索节点数量
-    return [], 0
+
+def astar_search(maze):
+    objectives = maze.getObjectives()
+    target = objectives[-1] # 最后一个目标点
+
+    # f = h + g 不一定找到最短
+    # Path = 171
+    # explored = 861171
+    def single_cost(Node):
+        return abs(target[0]-Node.cord[0]) + abs(target[1]-Node.cord[1]) + Node.dist
+    
+    # f = h + g 不一定找到最短
+    # Path = 169
+    # explored = 1026385
+    def min_h_cost(Node):
+        return min([abs(Node.cord[0] - end[0]) + abs(Node.cord[1] - end[1]) for end in objectives]) + Node.dist
+    
+    # f = 0 + g 均匀搜索
+    # Path = 169
+    # explored = 1088829
+    def uniform_cost(Node):
+        return Node.dist
+    
+    # return _prSearchMulti(maze,single_cost,objectives)
+    return _prSearchMulti(maze,single_cost,objectives)
+
+    # TODO: Write your code here
+    # return path, num_states_explored
+
+
+def astar(maze):
+
+
+
+    return astar_search(maze)
+
+
+
+
+
+
+
+

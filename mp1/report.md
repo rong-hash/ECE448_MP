@@ -1,6 +1,6 @@
 # MP1 Report
 
-- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (),  Yanbing Yang (yanbing7)
+- **Team Members:** Zhirong Chen (zhirong4), Xiaoyang Chu (), Jiajun Hu (jiajunh5),  Yanbing Yang (yanbing7)
 - **Date:** 3/17/2024
 
 ---
@@ -83,11 +83,11 @@ Present the results for each algorithm across different mazes. Include screensho
 - **Solution Graphs of DFS search trials:**
 <div align ="center">
 DFS search in mediumMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/ff1938de-dd42-49d6-a90d-217d00c65b5e width = "300" alt="image" /><br/><br/>
+<img src="result/mediumMaze.txt-dfs.png" width = "300" alt="image" /><br/><br/>
 DFS search in bigMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/5f752363-a2cf-45f6-8bd3-2eb37d54ab37 width = "300" alt="image" /><br/><br/>
+<img src="result/bigMaze.txt-dfs.png" width = "300" alt="image" /><br/><br/>
 DFS search in openMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/fd5f8a8f-bffe-4cd9-98c2-77d80543f4ea width = "300" alt="image" /><br/><br/>
+<img src="result/openMaze.txt-dfs.png" width = "300" alt="image" /><br/><br/>
 </div>
   
 ### BFS Results
@@ -103,11 +103,11 @@ DFS search in openMaze<br/>
 - **Solution Graphs of BFS search trials:**
 <div align ="center">
 BFS search in mediumMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/181e3f5d-545a-42bb-95e9-05000ae2ac0e width = "300" alt="image" /><br/><br/>
+<img src="result/mediumMaze.txt-bfs.png" width = "300" alt="image" /><br/><br/>
 BFS search in bigMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/9970e689-0b4b-4eba-87ef-96c953bd1054 width = "300" alt="image" /><br/><br/>
+<img src="result/bigMaze.txt-bfs.png" width = "300" alt="image" /><br/><br/>
 BFS search in openMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/d80781e9-2c0d-4157-9006-2ebaf73c57f0 width = "300" alt="image" /><br/><br/>
+<img src="result/openMaze.txt-bfs.png" width = "300" alt="image" /><br/><br/>
 </div>
 
 ### Greedy Results
@@ -120,14 +120,16 @@ BFS search in openMaze<br/>
   |Number of Expanded Nodes|158|457|212|
 </div>
 
+
+
 - **Solution Graphs of greedy search trials:**
 <div align ="center">
 Greedy search in mediumMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/db0cdb9b-0542-4164-97b2-0e23011fc5e2 width = "300" alt="image" /><br/><br/> 
+<img src="result/mediumMaze.txt-greedy.png" width = "300" alt="image" /><br/><br/> 
 Greedy search in bigMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/2cba816c-6ef7-4fa2-9ddf-707d689c1c46 width = "300" alt="image" /><br/><br/>
+<img src="result/bigMaze.txt-greedy.png" width = "300" alt="image" /><br/><br/>
 Greedy search in openMaze<br/>
-<img src=https://github.com/SwordTechCorp/ece448_mp/assets/88780831/7a49cd65-5f90-4501-aee3-9ad632e185ec width = "300" alt="image" /><br/><br/>
+<img src="result/openMaze.txt-greedy.png" width = "300" alt="image" /><br/><br/>
 </div>
 
 ### A* Results
@@ -153,6 +155,28 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 - (Image), Solution Cost, Number of Expanded Nodes
 
 ---
+## Extra Credit： 
+If you have done any work which you think should get extra credit, describe it here
+
+- To search for sub-optimal path, we considered A* algorithm using a non-admissible heuristic function. We use manhatten distance as our h(n), and we choose the objectives with minimum h(n) as our next target. Than we use the standard A* search method to find out the shortest path to this target and repeat the previous process.  
+  
+- The following are the picture and table for our algorithm result.
+  
+### BigDots Table & Picture
+
+<div align ="center">
+  
+  |BigDots  | none-admissable A*  |
+  |:----:|:----:|
+  |Path Length|326|
+  |States Explored|612|
+</div>
+
+<div align="center">
+  <img src="picture/bigDots-astar.png" alt="Big Dots" title="Big Dots Image" />
+</div>
+
+---
 
 
 ## Statement of Contribution
@@ -162,4 +186,6 @@ Discuss the outcomes of employing your A* algorithm on mazes with multiple dots.
 - Yanbing Yang: Greedy, Code Review
 
 ---
+
+
 
