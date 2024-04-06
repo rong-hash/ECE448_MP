@@ -331,7 +331,7 @@ Practical tests yield that there's almost no chance for human player to win the 
 - Zhirong Chen: Implement the uttt code.
 - Jiajun Hu: Part of Section2, Section4 Human & AI test
 - Xiaoyang Chu: CSP
-- Yanbing Yang: Greedy, Code Review
+- Yanbing Yang: Part of Section 3 and 4
 
 ---
 
