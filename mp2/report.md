@@ -18,13 +18,13 @@ The following images illustrate the solutions found by the algorithm on the boar
 <div align ="center">
 
 <img src=./img/3x20_pentnominos.png width = "300" alt="image" /><br/>
-Fig. 3x20 Chessboard<br/>
+Fig. 1: 3x20 Chessboard<br/>
 <img src=./img/5x12_pentnominos.png width = "300" alt="image" /><br/>
-Fig. 5x12 Chessboard<br/>
+Fig. 2: 5x12 Chessboard<br/>
 <img src=./img/6x10_pentnominos.png width = "300" alt="image" /><br/>
-Fig .6x10 Chessboard<br/>
+Fig. 3: 6x10 Chessboard<br/>
 <img src=./img/empty_pentnominos.png width = "300" alt="image" /><br/>
-Fig. Empty Chessboard<br/>
+Fig. 4: Empty Chessboard<br/>
 </div>
 
 ---
