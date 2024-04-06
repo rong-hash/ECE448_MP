@@ -329,7 +329,7 @@ Practical tests yield that there's almost no chance for human player to win the 
 
 ## Statement of Contribution
 - Zhirong Chen: Implement the uttt code.
-- Jiajun Hu: BFS, DFS
+- Jiajun Hu: Part of Section2, Section4 Human & AI test
 - Xiaoyang Chu: CSP
 - Yanbing Yang: Greedy, Code Review
 
