@@ -31,7 +31,142 @@ Fig. Empty Chessboard<br/>
 
 ## Section II: Ultimate Tic-Tac-Toe: Results
 
+minimax vs minimax, max first
+```
+O _ X O _ _ O X _
+_ X _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
 
+_ _ _ X _ O _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[704, 1391, 2000, 2656, 3175, 3749, 4308, 4895, 5246]
+The winner is maxPlayer!!!
+```
+minimax vs alpha_beta, max first
+```
+O _ X O _ _ O X _
+_ X _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
+
+_ _ _ X _ O _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[704, 1037, 1646, 1934, 2453, 2723, 3282, 3591, 3942]
+The winner is maxPlayer!!!
+```
+alpha_beta vs minimax, max first
+```
+O _ X O _ _ O X _
+_ X _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
+
+_ _ _ X _ O _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[284, 971, 1258, 1914, 2152, 2726, 2987, 3574, 3737]
+The winner is maxPlayer!!!
+```
+alpha_beta vs alpha_beta, max first
+```
+O _ X O _ _ O X _
+_ X _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
+
+_ _ _ X _ O _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[284, 617, 904, 1192, 1430, 1700, 1961, 2270, 2433]
+The winner is maxPlayer!!!
+```
+minimax vs minimax, min first
+```
+X _ O X _ X X O _
+_ O _ _ _ _ _ O _
+O _ _ _ _ _ _ _ _
+
+_ _ _ O _ X _ O _
+_ _ _ _ _ X _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[704, 1391, 2000, 2656, 3175, 3749, 4308, 4895, 5361, 5828, 6371, 6851, 7164]
+The winner is minPlayer!!!
+```
+minimax vs alphabeta, min first
+```
+X _ O X _ X X O _
+_ O _ _ _ _ _ O _
+O _ _ _ _ _ _ _ _
+
+_ _ _ O _ X _ O _
+_ _ _ _ _ X _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[284, 971, 1258, 1914, 2152, 2726, 2993, 3580, 3792, 4259, 4551, 5031, 5208]
+The winner is minPlayer!!!
+```
+alphabeta vs minimax, min first
+```
+X _ O X _ X X O _
+_ O _ _ _ _ _ O _
+O _ _ _ _ _ _ _ _
+
+_ _ _ O _ X _ O _
+_ _ _ _ _ X _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[704, 1037, 1646, 1934, 2453, 2723, 3282, 3624, 4090, 4362, 4905, 5181, 5494]
+The winner is minPlayer!!!
+```
+alphabeta vs alphabeta, min first
+```
+X _ O X _ X X O _
+_ O _ _ _ _ _ O _
+O _ _ _ _ _ _ _ _
+
+_ _ _ O _ X _ O _
+_ _ _ _ _ X _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+[284, 617, 904, 1192, 1430, 1700, 1967, 2309, 2521, 2793, 3085, 3361, 3538]
+The winner is minPlayer!!!
+```
 
 ---
 ## Section III: Ultimate Tic-Tac-Toe: Agent Performance
@@ -46,7 +181,7 @@ Fig. Empty Chessboard<br/>
 ---
 
 ## Statement of Contribution
-- Zhirong Chen: Write the report
+- Zhirong Chen: Implement the uttt code.
 - Jiajun Hu: BFS, DFS
 - Xiaoyang Chu: CSP
 - Yanbing Yang: Greedy, Code Review
