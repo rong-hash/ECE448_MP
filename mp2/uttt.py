@@ -644,7 +644,7 @@ class ultimateTicTacToe:
                 for j in range(3):
                     if self.board[startX + i][startY + j] == '_':
                         self.board[startX + i][startY + j] = self.minPlayer
-                        value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayers)
+                        value = self.my_alpha(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayers)
                         self.board[startX + i][startY + j] = '_'
                         if value < best_value:
                             best_value = value
@@ -669,10 +669,10 @@ if __name__=="__main__":
     uttt=ultimateTicTacToe()
     # feel free to write your own test code
     # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGamePredifinedAgent(False,False,False)
-    gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
-    # _, _, winner = uttt.playGameHuman()
-    uttt.printGameBoard()
-    print(expandedNodes)
+    # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
+    _, _, winner = uttt.playGameHuman()
+    # uttt.printGameBoard()
+    # print(expandedNodes)
     if winner == 1:
         print("The winner is maxPlayer!!!")
     elif winner == -1:
