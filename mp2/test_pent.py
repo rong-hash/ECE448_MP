@@ -1,6 +1,8 @@
 import instances
 import solve
 from Pentomino import check_correctness
+import numpy as np
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     boards = {"3x20":instances.board_3x20, 
@@ -18,4 +20,9 @@ if __name__ == "__main__":
                 print("PASSED!")
             else:
                 print("FAILED...")
+            drawboard = np.copy(boards[board])
+            for sol in sol_list:
+                drawboard[sol[1][0]:sol[1][0]+sol[0].shape[0],sol[1][1]:sol[1][1]+sol[0].shape[1]] += sol[0]
+            drawboard = drawboard.repeat(30, axis=0).repeat(30, axis=1)
+            plt.imsave(f"img/{board}_{ino}.png",drawboard)
     pass
