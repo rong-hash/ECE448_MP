@@ -305,14 +305,14 @@ class ultimateTicTacToe:
                         self.board[startX + i][startY + j] = self.maxPlayer if self.currPlayers else self.minPlayer
                         if self.currPlayers:
                             if isMinimaxOffensive:
-                                value = self.minimax(0, (startX + i) % 3 * 3 + (startY + j) % 3, True)
+                                value = self.minimax(0, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayers)
                             else:
-                                value = self.alphabeta(0, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, True)
+                                value = self.alphabeta(0, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayers)
                         else:
                             if isMinimaxDefensive:
-                                value = self.minimax(0, (startX + i) % 3 * 3 + (startY + j) % 3, False)
+                                value = self.minimax(0, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayers)
                             else:
-                                value = self.alphabeta(0, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, False)
+                                value = self.alphabeta(0, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayers)
                         self.board[startX + i][startY + j] = '_'
                         if self.currPlayers:
                             if value > best_value:
@@ -330,6 +330,9 @@ class ultimateTicTacToe:
             gameBoards.append([row.copy() for row in self.board])
             current_board = (best_move[0] % 3) * 3 + (best_move[1] % 3)
             self.currPlayers = not self.currPlayers
+            self.printGameBoard()
+            print("best value", best_value)
+            print()
         
         if self.checkWinner() == 1:
             winner = 1
@@ -377,4 +380,3 @@ if __name__=="__main__":
         print("The winner is minPlayer!!!")
     else:
         print("Tie. No winner:(")
-    uttt.printGameBoard()
