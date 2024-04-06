@@ -47,6 +47,23 @@ class ultimateTicTacToe:
         print('\n'.join([' '.join([str(cell) for cell in row]) for row in self.board[3:6]])+'\n')
         print('\n'.join([' '.join([str(cell) for cell in row]) for row in self.board[6:9]])+'\n')
 
+    def printHighlight(self, current_board):
+        """
+        This function prints the current game board.
+        """
+        startX, startY = self.globalIdx[current_board]
+        for i in range(9):
+            for j in range(9):
+                if self.board[i][j] == 'X':
+                    print("\033[0;31mX\033[0m", end=' ')
+                elif self.board[i][j] == 'O':
+                    print("\033[0;32mO\033[0m", end=' ')
+                elif self.board[i][j] == '_' and i >= startX and i < startX + 3 and j >= startY and j < startY + 3:
+                    print("\033[0;33m_\033[0m", end=' ')
+                else:
+                    print('_', end=' ')
+            print("\n")
+
 
     def evaluatePredifined(self, isMax):
         """
@@ -584,6 +601,60 @@ class ultimateTicTacToe:
         bestMove=[]
         gameBoards=[]
         winner=0
+        args = input("Select Board Index (0-8):") #input format: 5
+        alpha = -inf
+        beta = inf
+        current_board = int(args)
+        self.currPlayers = False #Human is max player, Agent is min player
+        expandedNodes = []
+        node = 0
+        while self.checkWinner() == 0 and self.checkMovesLeft():
+            startX, startY = self.globalIdx[current_board]
+            best_value = inf
+            while True:
+                try:
+                    args = input("Next Move (0-2 0-2):") #input format: 1 1
+                    args = args.split()
+                    x = int(args[0])
+                    y = int(args[1])
+                except KeyboardInterrupt:
+                    exit()
+                except:
+                    print("Invalid Move. Try again.")
+                    continue
+                if x < 0 or x > 2 or y < 0 or y > 2: 
+                    print("Invalid Move. Try again.")
+                    continue
+                if self.board[startX + x][startY + y] == '_':
+                    self.board[startX + x][startY + y] = self.maxPlayer
+                    break
+                else:
+                    print("Invalid Move. Try again.")
+            current_board = x * 3 + y
+            startX, startY = self.globalIdx[current_board]
+            for i in range(3):
+                for j in range(3):
+                    if self.board[startX + i][startY + j] == '_':
+                        self.board[startX + i][startY + j] = self.minPlayer
+                        value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayers)
+                        self.board[startX + i][startY + j] = '_'
+                        if value < best_value:
+                            best_value = value
+                            best_move = (startX + i, startY + j)
+            bestMove.append(best_move)
+            node += 1
+            expandedNodes.append(node)
+            self.board[best_move[0]][best_move[1]] = self.minPlayer
+            gameBoards.append([row.copy() for row in self.board])
+            current_board = (best_move[0] % 3) * 3 + (best_move[1] % 3)
+            
+            self.printHighlight(current_board)
+            print("best value", best_value)
+        
+        if self.checkWinner() == 1:
+            winner = 1
+        elif self.checkWinner() == -1:
+            winner = -1
         return gameBoards, bestMove, winner
 
 if __name__=="__main__":
@@ -592,7 +663,8 @@ if __name__=="__main__":
     gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGamePredifinedAgent(False,False,False)
     uttt.printGameBoard()
     print(expandedNodes)
-    # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
+    # # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
+    # _, _, winner = uttt.playGameHuman()
     if winner == 1:
         print("The winner is maxPlayer!!!")
     elif winner == -1:
