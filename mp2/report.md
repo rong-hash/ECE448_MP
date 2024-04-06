@@ -171,7 +171,90 @@ The winner is minPlayer!!!
 ---
 ## Section III: Ultimate Tic-Tac-Toe: Agent Performance
 
+In 20 games, our agent beat predefined agent for all times. Here's the selected representative games. Our agent is the maxPlayer.
+```
+Game  0
+O _ X X O O O X _
+_ X _ X _ _ _ X _
+X _ _ _ _ _ _ _ _
 
+O X _ _ _ O _ _ _
+_ _ _ O _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+expand nodes [277, 599, 933, 1219, 1498, 1792, 2131, 2412, 2691, 2960, 3331, 3587, 3854, 4142, 4340]
+The winner is maxPlayer!!!
+
+Game  1
+X _ O _ _ _ O _ X
+X _ _ _ _ _ O _ _
+X _ _ _ _ _ _ _ _
+
+O _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
+
+O _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+expand nodes [284, 599, 836, 1087, 1300, 1566, 1845, 2070, 2322, 2482]
+The winner is maxPlayer!!!
+
+Game  2
+X _ O O _ X X O _
+X O _ _ X _ _ O _
+X _ _ _ _ _ _ _ _
+
+_ _ _ O X X _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+O O _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+expand nodes [284, 617, 904, 1194, 1432, 1729, 1994, 2322, 2532, 2829, 3093, 3297, 3560, 3771, 3989, 4132]
+The winner is maxPlayer!!!
+
+Game  3
+X _ O O _ X X O _
+_ O _ O _ _ _ O _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ X X X _ _ _
+X O _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+expand nodes [277, 599, 933, 1219, 1498, 1785, 2123, 2412, 2690, 2978, 3221, 3587, 3929, 4213]
+The winner is maxPlayer!!!
+```
+
+The main reason that our agent is better than the predefined agent is, the predefined agent's evaluation function only calculate the score of its own chess piece, but don't consider the opponent chess piece. For example, in the initial game, which both side use minimax strategy, the result is
+```
+O _ X O _ _ O X _
+_ X _ _ _ _ _ _ _
+X _ _ _ _ _ _ _ _
+
+_ _ _ X _ O _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _
+```
+The last move done by minPlayer 'O' chooses to place its piece on the left upper corner in the second local board. However, next iteration, maxPlayer will definitely win the game, because it already has 2 'X' in a row in the first local board. Because the minPlayer only calculate the benefit of its own piece, but doesn't calculate the loss caused by its move, the minPlayer lose the game.
+
+Therefore, based on this shortcoming, we add a loss score in our evaluation function. The maxPlayer will not only add score in the total score, but also delete the score when it find its move will benefit the opponent much more than itself, for instance, let the opponent win directly. Based on this evaluation function, our agent beat the original predefined agent 20 times out of 20 times.
 
 ---
 ## Section IV: Ultimate Tic-Tac-Toe: Human v.s. Agent
