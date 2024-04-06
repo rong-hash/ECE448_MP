@@ -347,7 +347,7 @@ Nevertheless, in the few cases where AI loses, we discovered that it lacks the a
 ## Statement of Contribution
 - Zhirong Chen: Implement the uttt code.
 - Jiajun Hu: Part of Section2, Section4 Human & AI test
-- Xiaoyang Chu: CSP
+- Xiaoyang Chu: CSP, Human Interaction, Agent Testing
 - Yanbing Yang: Part of Section 3 and 4
 
 ---
