@@ -258,8 +258,72 @@ Therefore, based on this shortcoming, we add a loss score in our evaluation func
 
 ---
 ## Section IV: Ultimate Tic-Tac-Toe: Human v.s. Agent
+- Game 1 AI won
+```
+_ X O X O X _ X O
+O X _ O _ X X _ _
+_ O _ O X O O X X
 
+_ O O O O _ _ O X
+X _ _ _ X X _ _ _
+X X O _ _ _ _ O _
 
+X _ _ O X O X X O
+_ _ O X O _ O _ _
+X O X O X X _ O _
+
+The winner is minPlayer!!!
+```
+- Game 2 AI won
+```
+X O _ _ _ X _ _ O
+_ _ _ _ _ O _ X _
+_ _ X X _ _ O X _
+
+_ _ _ O _ _ O X X
+X O O O X _ _ _ X
+X O _ _ X _ X _ O
+
+O O O _ _ _ _ _ _
+X _ O O _ O X _ X
+X _ _ _ _ X O _ O
+
+The winner is minPlayer!!!
+```
+- Game 3 AI won
+```
+X O _ _ X O _ X X
+X X _ _ X O O O _
+O _ _ O _ _ X _ _
+
+O O X O X O X _ _
+X O O X X O X _ X
+_ X O X O _ O _ _
+
+_ _ O _ _ _ O _ _
+O X _ X O _ O _ _
+X O X _ X O _ _ X
+
+The winner is minPlayer!!!
+```
+- Game 4 AI won
+```
+X O X O X O O _ X
+X O _ _ X _ O X X
+O _ X _ _ _ O X O
+
+X O _ O X O _ _ X
+X _ O _ X O _ _ X
+_ O _ _ _ _ O O _
+
+_ _ O X _ X O _ O
+X _ _ O _ _ _ _ _
+X O _ _ X O X _ X
+
+The winner is minPlayer!!!
+```
+
+Practical tests yield that there's almost no chance for human player to win the agent with the accurate justice from algorithm. In the ten games we can realize that the agent is always leading the game to the advantageous situation for it, which made us be defensive instead of offensive in most steps. The algorithm is designed to predict the several steps in future and to choose the best step among branches accurately, so that the game can be always controlled by the designed agent if we can not predict more branches than it.
 
 ---
 
