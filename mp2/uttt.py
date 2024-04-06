@@ -528,6 +528,27 @@ class ultimateTicTacToe:
         elif self.checkWinner() == -1:
             winner = -1
         return gameBoards, bestMove, expandedNodes, bestValue, winner    
+    
+    
+    def getNewMove(self, tmpplayer, curb, is_minimax):
+        resVals = []
+        resMov = []
+        localB = self.getLocal(curb)
+        for pos in localB:
+            if self.board[pos[0]][pos[1]] != '_':
+                continue
+            
+            nxtb = self.tarLBoard(pos[0], pos[1])
+            resMov.append(pos)
+            self.board[pos[0]][pos[1]] = 'X' if tmpplayer == 1 else 'O'
+            result = self.minimax(1, nxtb, tmpplayer == -1) if is_minimax else self.alphabeta(1, nxtb, -inf, inf, tmpplayer == -1)
+            resVals.append(result)
+            self.board[pos[0]][pos[1]] = '_'
+        if tmpplayer == 1:
+            best_value = max(resVals)
+        else:
+            best_value = min(resVals)
+        return best_value, resMov[resVals.index(best_value)]
 
 
     def playGameHuman(self):
