@@ -356,7 +356,7 @@ class ultimateTicTacToe:
                     bestValue = max(bestValue, value) if isMax else min(bestValue, value)
         return bestValue
     
-    def my_minimax(self, depth, currBoardIdx, isMax):
+    def my_alpha(self, depth, currBoardIdx, isMax):
         """
         This function implements minimax algorithm for ultimate tic-tac-toe game.
         input args:
@@ -371,9 +371,8 @@ class ultimateTicTacToe:
         """
         #YOUR CODE HERE
         if depth == self.maxDepth or self.checkWinner() != 0 or not self.checkMovesLeft():
-            value = self.evaluateDesigned(self.currPlayer)
             self.expandedNodes += 1
-            return value
+            return self.evaluateDesigned(self.currPlayer)
         bestValue = -inf if isMax else inf
 
         startX, startY = self.globalIdx[currBoardIdx]
@@ -381,10 +380,18 @@ class ultimateTicTacToe:
             for dy in range(3):
                 if self.board[startX + dx][startY + dy] == '_':
                     self.board[startX + dx][startY + dy] = self.maxPlayer if isMax else self.minPlayer
-                    value = self.my_minimax(depth + 1, (startX + dx) % 3 * 3 + (startY + dy) % 3, not isMax)
+                    value = self.alphabeta(depth + 1, (startX + dx) % 3 * 3 + (startY + dy) % 3, alpha, beta, not isMax)
                     self.board[startX + dx][startY + dy] = '_'
-                    bestValue = max(bestValue, value) if isMax else min(bestValue, value)
+                    if isMax:
+                        alpha = max(alpha, bestValue)
+                        bestValue = max(bestValue, value)
+                    else:
+                        beta = min(beta, bestValue)
+                        bestValue = min(bestValue, value)
+                    if beta <= alpha:
+                        return bestValue
         return bestValue
+
 
     def playGamePredifinedAgent(self,maxFirst,isMinimaxOffensive,isMinimaxDefensive):
         """
@@ -458,7 +465,7 @@ class ultimateTicTacToe:
             winner = -1
         return gameBoards, bestMove, expandedNodes, bestValue, winner    
 
-    def playGameYourAgent(self, maxFirst,isMinimaxOffensive,isMinimaxDefensive):
+    def playGameYourAgent(self):
         """
         This function implements the processes of the game of predifined offensive agent vs defensive agent.
         input args:
@@ -483,8 +490,8 @@ class ultimateTicTacToe:
 
         alpha = -inf
         beta = inf
-        current_board = self.startBoardIdx
-        self.currPlayer = maxFirst
+        current_board = randint(0, 8)
+        self.currPlayer = randint(0, 1)
         expandedNodes = []
         while self.checkWinner() == 0 and self.checkMovesLeft():
             startX, startY = self.globalIdx[current_board]
@@ -494,15 +501,9 @@ class ultimateTicTacToe:
                     if self.board[startX + i][startY + j] == '_':
                         self.board[startX + i][startY + j] = self.maxPlayer if self.currPlayer else self.minPlayer
                         if self.currPlayer:
-                            if isMinimaxOffensive:
-                                value = self.my_minimax(1, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayer)
-                            else:
-                                value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayer)
+                            value = self.my_alpha(1, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayer)
                         else:
-                            if isMinimaxDefensive:
-                                value = self.minimax(1, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayer)
-                            else:
-                                value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayer)
+                            value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayer)
                         self.board[startX + i][startY + j] = '_'
                         if self.currPlayer:
                             if value > best_value:
