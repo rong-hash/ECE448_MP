@@ -62,7 +62,9 @@ class ultimateTicTacToe:
                     print("\033[0;33m_\033[0m", end=' ')
                 else:
                     print('_', end=' ')
-            print("\n")
+                if (j % 3 == 2): print("\t", end='')
+            print()
+            if (i % 3 == 2): print()
 
 
     def evaluatePredifined(self, isMax):
