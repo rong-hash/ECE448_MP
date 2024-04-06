@@ -397,10 +397,16 @@ class ultimateTicTacToe:
             for dy in range(3):
                 if self.board[startX + dx][startY + dy] == '_':
                     self.board[startX + dx][startY + dy] = self.maxPlayer if isMax else self.minPlayer
-                    value = self.minimax(depth + 1, (startX + dx) % 3 * 3 + (startY + dy) % 3, not isMax)
-
+                    value = self.my_alpha(depth + 1, (startX + dx) % 3 * 3 + (startY + dy) % 3, alpha, beta, not isMax)
                     self.board[startX + dx][startY + dy] = '_'
-                    bestValue = max(bestValue, value) if isMax else min(bestValue, value)
+                    if isMax:
+                        alpha = max(alpha, bestValue)
+                        bestValue = max(bestValue, value)
+                    else:
+                        beta = min(beta, bestValue)
+                        bestValue = min(bestValue, value)
+                    if beta <= alpha:
+                        return bestValue
         return bestValue
     
     def my_minimax(self, depth, currBoardIdx, isMax):
@@ -538,7 +544,7 @@ class ultimateTicTacToe:
                     if self.board[startX + i][startY + j] == '_':
                         self.board[startX + i][startY + j] = self.maxPlayer if self.currPlayer else self.minPlayer
                         if self.currPlayer:
-                            value = self.my_minimax(1, (startX + i) % 3 * 3 + (startY + j) % 3, not self.currPlayer)
+                            value = self.my_alpha(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayer)
                         else:
                             value = self.alphabeta(1, (startX + i) % 3 * 3 + (startY + j) % 3, alpha, beta, not self.currPlayer)
                         self.board[startX + i][startY + j] = '_'
@@ -660,11 +666,11 @@ class ultimateTicTacToe:
 if __name__=="__main__":
     uttt=ultimateTicTacToe()
     # feel free to write your own test code
-    gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGamePredifinedAgent(False,False,False)
+    # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGamePredifinedAgent(False,False,False)
+    gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
+    # _, _, winner = uttt.playGameHuman()
     uttt.printGameBoard()
     print(expandedNodes)
-    # # gameBoards, bestMove, expandedNodes, bestValue, winner=uttt.playGameYourAgent()
-    # _, _, winner = uttt.playGameHuman()
     if winner == 1:
         print("The winner is maxPlayer!!!")
     elif winner == -1:
