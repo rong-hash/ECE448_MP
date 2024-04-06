@@ -323,7 +323,24 @@ X O _ _ X O X _ X
 The winner is minPlayer!!!
 ```
 
-Practical tests yield that there's almost no chance for human player to win the agent with the accurate justice from algorithm. In the ten games we can realize that the agent is always leading the game to the advantageous situation for it, which made us be defensive instead of offensive in most steps. The algorithm is designed to predict the several steps in future and to choose the best step among branches accurately, so that the game can be always controlled by the designed agent if we can not predict more branches than it.
+- Game 5 Human won
+```
+_ O X   O _ X   X O _
+X X _   _ X _   O _ _
+O O X   X O _   O _ X
+
+X O O   O X O   O X _
+O X _   X O O   _ _ _
+X O _   X _ _   _ X _
+
+O _ _   O _ X   X _ _
+O X O   X _ X   X O _
+_ X X   O X O   _ O O
+```
+
+Human player won 4 out of 10 games played. Practical tests yield that there's some chance for human player to win the agent. The algorithm is designed to predict the several steps in future and to choose the best step among branches accurately, so that the game can be always controlled by the designed agent if we can not predict more branches than it.
+
+Nevertheless, in the few cases where AI loses, we discovered that it lacks the ability to "prepare for the future", which is reasonable as its maximal search depth is limited. In these cases, human player may set up traps in advance to increase the chances of wining. A possible improvement for the agent is by introducing penalties when there are "two-in-a-row" on the board.
 
 ---
 
