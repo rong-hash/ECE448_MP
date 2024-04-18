@@ -90,7 +90,7 @@ Fig. 1: Confusion Matrix
 <div align="center">
 
 <img src="part1/rst/feature_k=0.1.svg" width = "600" alt="image" /><br/>
-Fig. 2: Confusion Matrix
+Fig. 2: Feature Likelihoods
 </div>
 
 ---
