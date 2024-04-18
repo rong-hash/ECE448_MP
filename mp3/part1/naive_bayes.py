@@ -24,6 +24,8 @@ class NaiveBayes(object):
 		self.prior = np.zeros((num_class))
 		self.likelihood = np.zeros((feature_dim,num_value,num_class))
 
+		self.k  = 0.1
+
 	def train(self,train_set,train_label):
 		""" Train naive bayes model (self.prior and self.likelihood) with training dataset. 
 			self.prior(numpy.ndarray): training set class prior (in log) with a dimension of (# of class,),
@@ -37,6 +39,24 @@ class NaiveBayes(object):
 		"""
 
 		# YOUR CODE HERE
+		train_set = np.asarray(train_set,dtype=int)
+
+		#k = 0.1
+		k = self.k
+		#k = 10
+
+		for i in range(train_set.shape[0]):
+			self.prior[train_label[i]] += 1
+			for j in range(train_set.shape[1]):
+				self.likelihood[j,train_set[i,j],train_label[i]] += 1
+		
+		
+		for i in range(train_set.shape[1]):
+			for j in range(self.num_class):
+				self.likelihood[i,:,j] = np.log((self.likelihood[i,:,j] + k) / (self.prior[j] + self.num_value*k))
+		
+		self.prior = np.log(self.prior / np.sum(self.prior))
+
 		pass
 
 	def test(self,test_set,test_label):
@@ -56,10 +76,18 @@ class NaiveBayes(object):
 
 		# YOUR CODE HERE
 
+		test_set = np.asarray(test_set,dtype=int)
+
 		accuracy = 0
 		pred_label = np.zeros((len(test_set)))
 
-		pass
+
+		for i in range(test_set.shape[0]):
+			pred_label[i] = np.argmax(self.prior + np.sum(self.likelihood[np.arange(self.feature_dim,dtype=int),test_set[i]],axis=0))
+			if pred_label[i] == test_label[i]:
+				accuracy += 1
+
+		accuracy /= test_set.shape[0]
 
 		return accuracy, pred_label
 
@@ -79,21 +107,25 @@ class NaiveBayes(object):
 		self.likelihood = np.load(likelihood)
 
 	def intensity_feature_likelihoods(self, likelihood):
-	    """
-	    Get the feature likelihoods for high intensity pixels for each of the classes,
-	        by sum the probabilities of the top 128 intensities at each pixel location,
-	        sum k<-128:255 P(F_i = k | c).
-	        This helps generate visualization of trained likelihood images. 
-	    
-	    Args:
-	        likelihood(numpy.ndarray): likelihood (in log) with a dimension of
-	            (# of features/pixels per image, # of possible values per pixel, # of class)
-	    Returns:
-	        feature_likelihoods(numpy.ndarray): feature likelihoods for each class with a dimension of
-	            (# of features/pixels per image, # of class)
-	    """
-	    # YOUR CODE HERE
-	    
-	    feature_likelihoods = np.zeros((likelihood.shape[0],likelihood.shape[2]))
+		"""
+		Get the feature likelihoods for high intensity pixels for each of the classes,
+			by sum the probabilities of the top 128 intensities at each pixel location,
+			sum k<-128:255 P(F_i = k | c).
+			This helps generate visualization of trained likelihood images. 
 
-	    return feature_likelihoods
+		Args:
+			likelihood(numpy.ndarray): likelihood (in log) with a dimension of
+				(# of features/pixels per image, # of possible values per pixel, # of class)
+		Returns:
+			feature_likelihoods(numpy.ndarray): feature likelihoods for each class with a dimension of
+				(# of features/pixels per image, # of class)
+		"""
+		# YOUR CODE HERE
+		feature_likelihoods = np.zeros((likelihood.shape[0],likelihood.shape[2]))
+
+		for i in range(likelihood.shape[0]):
+			for j in range(likelihood.shape[2]):
+				feature_likelihoods[i,j] = np.sum(np.exp(likelihood[i,128:256,j]))
+		
+
+		return feature_likelihoods
