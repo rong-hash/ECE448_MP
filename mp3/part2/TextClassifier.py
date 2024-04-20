@@ -31,7 +31,7 @@ class TextClassifier(object):
             Then train_labels := [0,1]
         """
 
-        # TODO: Write your code here
+        # TODO: Write your code here 编写代码
         pass
 
     def predict(self, x_set, dev_label,lambda_mix=0.0):
@@ -49,7 +49,7 @@ class TextClassifier(object):
         accuracy = 0.0
         result = []
 
-        # TODO: Write your code here
+        # TODO: Write your code here 编写代码
         pass
 
         return accuracy,result
