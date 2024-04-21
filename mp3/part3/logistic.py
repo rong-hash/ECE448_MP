@@ -19,8 +19,5 @@ def logistic(X, y, learning_rate=0.01, epochs=1000):
         loss, gradient = logistic_loss_and_gradient(X, y, w)
         w -= learning_rate * gradient  # Update rule
         
-        # Optional: print out loss to monitor training
-        if epoch % 100 == 0:
-            print(f'Epoch {epoch}: Loss {loss}')
-    
+
     return w
