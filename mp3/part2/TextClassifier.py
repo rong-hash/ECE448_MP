@@ -20,20 +20,22 @@ class TextClassifier(object):
         """
         self.lambda_mixture = 0.0
 
+    # 这个函数目的是什么？根据训练好的数据集，生成类别分配函数
     def fit(self, train_set, train_label):
         """
         :param train_set - List of list of words corresponding with each text
             example: suppose I had two emails 'i like pie' and 'i like cake' in my training set
-            Then train_set := [['i','like','pie'], ['i','like','cake']]
+            Then train_set := [['i','like','pie'], ['i','like','cake']]                                      短句子
 
         :param train_labels - List of labels corresponding with train_set
-            example: Suppose I had two texts, first one was class 0 and second one was class 1.
+            example: Suppose I had two texts, first one was class 0 and second one was class 1.              分类标签
             Then train_labels := [0,1]
         """
 
         # TODO: Write your code here 编写代码
         pass
-
+    
+    # 这个函数目的是什么？根绝由训练集搞出来的Fit函数，对测试集进行预测
     def predict(self, x_set, dev_label,lambda_mix=0.0):
         """
         :param dev_set: List of list of words corresponding with each text in dev set that we are testing on

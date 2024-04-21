@@ -8,7 +8,8 @@
 # Created by Dhruv Agarwal (dhruva2@illinois.edu) on 02/21/2019
 
 import csv
-from TextClassifier import TextClassifier
+# from TextClassifier import TextClassifier
+from TextClassifier_test import TextClassifier # 用于测试
 import string
 
 """
@@ -63,7 +64,7 @@ def load_dataset(data_dir=''):
     x_train, y_train = readFile(data_dir+'train_text.csv',stop_words)
     x_test, y_test = readFile(data_dir+'dev_text.csv',stop_words)
 
-    print(data_dir+'stop_words.csv') # 测试使用
+    # print(data_dir+'stop_words.csv') # 测试使用
 
     return x_train,y_train,x_test,y_test
 
@@ -96,11 +97,16 @@ def compute_results(actual_labels,pred_labels):
 if __name__ == '__main__':
     # x_train, y_train, x_test, y_test = load_dataset() # 原程序
     x_train, y_train, x_test, y_test = load_dataset("D:\\DeskTop\\Embedded\\ECE448\\ece448_mp\\mp3\\part2\\") # 添加路径 用于Debug
-    
-    MNB = TextClassifier() # 调用编写的东西
+    # x_train：预训练 train_text.csv 中的句子列表
+    # y_train：根据 classes 分类的句子标签
+    # x_test： 未训练 dev_text.csv 中的句子列表
+    # y_test： 根据 classes 分类的句子标签
+
+
+    MNB = TextClassifier()                      # 创建MNB的Class对象  [调用编写的东西]
     MNB.fit(x_train, y_train)
 
-    accuracy,pred = MNB.predict(x_test, y_test)
+    accuracy,pred = MNB.predict(x_test, y_test) # 给测试集Bag of Words贴标签
     compute_results(y_test,pred)
 
     print("Accuracy {0:.4f}".format(accuracy))
