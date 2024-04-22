@@ -113,4 +113,7 @@ if __name__ == '__main__':
     accuracy,pred = MNB.predict(x_test, y_test) # 给测试集Bag of Words贴标签
     compute_results(y_test,pred)
 
+    # MNB.confusion_matrix(y_test,pred)
+    MNB.confusion_matrix_plot(y_test,pred)
+
     print("Accuracy {0:.4f}".format(accuracy))

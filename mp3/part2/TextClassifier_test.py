@@ -1,5 +1,7 @@
 import math
 from collections import Counter, defaultdict, OrderedDict
+import matplotlib.pyplot as plt
+import numpy as np
 
 class TextClassifier(object):
     def __init__(self):
@@ -125,3 +127,38 @@ class TextClassifier(object):
         accuracy = correct_predictions / len(dev_words_set)
         return accuracy, predicted_label_list
 
+
+    def confusion_matrix(self, true_labels, predicted_labels):
+        confusion_matrix = [[0 for _ in range(14)] for _ in range(14)]
+        for true_label, predicted_label in zip(true_labels, predicted_labels):
+            confusion_matrix[true_label - 1][predicted_label - 1] += 1
+
+        return confusion_matrix
+
+    def confusion_matrix_plot(self, true_labels, predicted_labels):
+        # 创建混淆矩阵
+        confusion_matrix = [[0 for _ in range(14)] for _ in range(14)]
+        for true_label, predicted_label in zip(true_labels, predicted_labels):
+            confusion_matrix[true_label - 1][predicted_label - 1] += 1
+        
+        # 使用matplotlib绘制混淆矩阵
+        fig, ax = plt.subplots()
+        cax = ax.matshow(confusion_matrix, cmap='viridis')  # 选择颜色映射
+        plt.title('Confusion Matrix')
+        fig.colorbar(cax)
+        ax.set_xlabel('Predicted labels')
+        ax.set_ylabel('True labels')
+        ax.set_xticklabels([''] + list(range(1, 15)))
+        ax.set_yticklabels([''] + list(range(1, 15)))
+        ax.xaxis.set_label_position('top')  # 将x轴标签放到顶部
+
+        # 在每个单元格中加入数值
+        for (i, j), val in np.ndenumerate(confusion_matrix):
+            ax.text(j, i, f'{val}', ha='center', va='center', color='white')
+
+        plt.show()  # 显示图形
+        plt.savefig('confusion_matrix.png')  # 保存为图片文件
+
+        return confusion_matrix
+
+            
