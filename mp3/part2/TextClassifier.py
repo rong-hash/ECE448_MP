@@ -36,7 +36,7 @@ class TextClassifier(object):
         pass
     
     # 这个函数目的是什么？根绝由训练集搞出来的Fit函数，对测试集进行预测
-    def predict(self, x_set, dev_label,lambda_mix=0.0):
+    def predict(self, dev_set, dev_label,lambda_mix=0.0):
         """
         :param dev_set: List of list of words corresponding with each text in dev set that we are testing on
               It follows the same format as train_set
