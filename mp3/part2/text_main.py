@@ -9,6 +9,7 @@
 
 import csv
 # from TextClassifier import TextClassifier
+import myplt
 from TextClassifier_test import TextClassifier # 用于测试
 import string
 
@@ -97,6 +98,8 @@ def compute_results(actual_labels,pred_labels):
     print ("F1 Score for all classes:",f1)
     print ("\r")
 
+    return precision,recall,f1
+
 
 if __name__ == '__main__':
     # x_train, y_train, x_test, y_test = load_dataset() # 原程序
@@ -111,9 +114,13 @@ if __name__ == '__main__':
     MNB.fit(x_train, y_train)
 
     accuracy,pred = MNB.predict(x_test, y_test) # 给测试集Bag of Words贴标签
-    compute_results(y_test,pred)
+    # compute_results(y_test,pred) # 原函数
+    # precision,recall,f1 = compute_results(y_test,pred)
 
-    # MNB.confusion_matrix(y_test,pred)
-    MNB.confusion_matrix_plot(y_test,pred)
+    # myplt.confusion_matrix_plot(y_test,pred)
+    # myplt.data_plot(precision, recall, f1)
+    myplt.top20(MNB.word_count_in_label) # 词频统计
+    # myplt.plot_top_words(MNB.word_prob_in_label) # 词频统计
+    myplt.save_top_words_to_csv(myplt.top20(MNB.word_count_in_label) ,"D:\DeskTop\Embedded\ECE448\ece448_mp\mp3\img\part2_table.csv") # 词频统计
 
     print("Accuracy {0:.4f}".format(accuracy))

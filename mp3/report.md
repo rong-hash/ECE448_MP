@@ -96,6 +96,26 @@ Fig. 2: Feature Likelihoods
 ---
 
 ## Section II: Text Classification
+- Confusion Matrix
+<div align="center">
+<img src="img/part2_confusion_matrix.png" width = "600" alt="image" /><br/>
+Fig. 1: Confusion Matrix
+</div>
+
+- Aurracy, recall, and F1 scores
+<div align="center">
+<img src="img/part2_results_table.png" width = "600" alt="image" /><br/>
+Fig. 2: Data table
+</div>
+
+- Top 20 feature words in 14 classes  
+<div align="center">
+<img src="img/part2_2.3_table.png" width = "600" alt="image" /><br/>
+Fig. 2: Top 20 feature words in each label
+</div>
+
+- 还没搞完
+
 
 
 
