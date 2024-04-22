@@ -91,8 +91,12 @@ def compute_results(actual_labels,pred_labels):
     f1=[2 * (p * r) / (p+r) if (p+r) !=0.0 else 0.0 for p, r in zip(precision,recall) ]
 
     print ("Precision for all classes :",precision)
+    print ("\r")
     print ("Recall for all classes:",recall)
+    print ("\r")
     print ("F1 Score for all classes:",f1)
+    print ("\r")
+
 
 if __name__ == '__main__':
     # x_train, y_train, x_test, y_test = load_dataset() # 原程序
