@@ -101,8 +101,12 @@ Fig. 2: Feature Likelihoods
 
 ---
 ## Section III: Linear Classfier
+**Training Result**
+![img](img/logistic_regression.png)
 
+**Logistic Model Error**
 
+E_train is 0.009899999999999996, E_test is 0.016954
 
 ---
 ## Extra Credit
@@ -110,7 +114,7 @@ Fig. 2: Feature Likelihoods
 ---
 
 ## Statement of Contribution
-- Zhirong Chen: 
+- Zhirong Chen: Finish the part 3, logistic regression
 - Jiajun Hu: 
 - Xiaoyang Chu: Image Classification
 - Yanbing Yang: 
