@@ -96,25 +96,34 @@ Fig. 2: Feature Likelihoods
 ---
 
 ## Section II: Text Classification
-- Confusion Matrix
+- 2.1 Confusion Matrix
 <div align="center">
-<img src="img/part2_confusion_matrix.png" width = "600" alt="image" /><br/>
+<img src="img/part2_2.1_confusion_matrix.png" width = "600" alt="image" /><br/>
 Fig. 1: Confusion Matrix
 </div>
 
-- Aurracy, recall, and F1 scores
+- 2.2 Aurracy, recall, and F1 scores
 <div align="center">
-<img src="img/part2_results_table.png" width = "600" alt="image" /><br/>
+<img src="img/part2_2.2_results_table.png" width = "600" alt="image" /><br/>
 Fig. 2: Data table
 </div>
 
-- Top 20 feature words in 14 classes  
+- 2.3 Top 20 feature words in 14 classes  
 <div align="center">
 <img src="img/part2_2.3_table.png" width = "600" alt="image" /><br/>
-Fig. 2: Top 20 feature words in each label
+Fig. 3: Top 20 feature words in each label
 </div>
 
-- 还没搞完
+- 2.4 Confusion Matrix Excluding P(class)  
+  
+  By compare the new confusion matrix with the previous one, we notice the accuracy increases, which is out of our expectation especially the accuracy of label 1. Therefore, we can conclude that including class prior is not always beneficial.
+
+  Changing the class prior to uniform distribution has the same result as excluding the class prior.  
+
+<div align="center">
+<img src="img/part2_2.4_confusion_matrix.png" width = "600" alt="image" /><br/>
+Fig. 4: Confusion Matrix
+</div>
 
 
 
@@ -135,7 +144,7 @@ E_train is 0.009899999999999996, E_test is 0.016954
 
 ## Statement of Contribution
 - Zhirong Chen: Finish the part 3, logistic regression
-- Jiajun Hu: 
+- Jiajun Hu: Finish part2, Bag of words task
 - Xiaoyang Chu: Image Classification
 - Yanbing Yang: 
 

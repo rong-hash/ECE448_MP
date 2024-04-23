@@ -35,7 +35,7 @@ def confusion_matrix_plot(true_labels, predicted_labels):
         ax.text(j, i, f'{val}', ha='center', va='center', color='white')
 
     plt.tight_layout()  # 自动调整子图参数, 使之填充整个图像区域
-    plt.savefig('D:\DeskTop\Embedded\ECE448\ece448_mp\mp3\img\part2_confusion_matrix.png', bbox_inches='tight')  
+    # plt.savefig('D:\DeskTop\Embedded\ECE448\ece448_mp\mp3\img\part2_2.4_confusion_matrix.png', bbox_inches='tight')  
     plt.show()  # 显示图形
     
     return confusion_matrix
@@ -119,7 +119,6 @@ def plot_top_words(tag_words_dict):
     # 保存和显示图像
     plt.savefig("top_words_table.png", bbox_inches='tight')
     plt.show()
-
 
 
 def save_top_words_to_csv(tag_words_dict, file_path):

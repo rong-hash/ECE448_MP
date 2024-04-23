@@ -8,10 +8,11 @@
 # Created by Dhruv Agarwal (dhruva2@illinois.edu) on 02/21/2019
 
 import csv
-# from TextClassifier import TextClassifier
-import myplt
-from TextClassifier_test import TextClassifier # 用于测试
+from TextClassifier import TextClassifier
 import string
+
+import myplt # 自定义库，用于生成图表
+
 
 """
 This file contains the main application that is run for this part of the MP.
@@ -54,7 +55,6 @@ def readFile(filename,stop_words):
 
     return data,labels
 
-
 def load_dataset(data_dir=''):
     """
 
@@ -92,13 +92,10 @@ def compute_results(actual_labels,pred_labels):
     f1=[2 * (p * r) / (p+r) if (p+r) !=0.0 else 0.0 for p, r in zip(precision,recall) ]
 
     print ("Precision for all classes :",precision)
-    print ("\r")
     print ("Recall for all classes:",recall)
-    print ("\r")
     print ("F1 Score for all classes:",f1)
-    print ("\r")
 
-    return precision,recall,f1
+    return precision,recall,f1 # 添加用于 Part 2.2
 
 
 if __name__ == '__main__':
@@ -114,13 +111,13 @@ if __name__ == '__main__':
     MNB.fit(x_train, y_train)
 
     accuracy,pred = MNB.predict(x_test, y_test) # 给测试集Bag of Words贴标签
-    # compute_results(y_test,pred) # 原函数
+    compute_results(y_test,pred) # 原函数
     # precision,recall,f1 = compute_results(y_test,pred)
 
-    # myplt.confusion_matrix_plot(y_test,pred)
+    myplt.confusion_matrix_plot(y_test,pred)
     # myplt.data_plot(precision, recall, f1)
-    myplt.top20(MNB.word_count_in_label) # 词频统计
+    # myplt.top20(MNB.word_count_in_label) # 词频统计
     # myplt.plot_top_words(MNB.word_prob_in_label) # 词频统计
-    myplt.save_top_words_to_csv(myplt.top20(MNB.word_count_in_label) ,"D:\DeskTop\Embedded\ECE448\ece448_mp\mp3\img\part2_table.csv") # 词频统计
+    # myplt.save_top_words_to_csv(myplt.top20(MNB.word_count_in_label) ,"D:\DeskTop\Embedded\ECE448\ece448_mp\mp3\img\part2_table.csv") # 词频统计
 
     print("Accuracy {0:.4f}".format(accuracy))
