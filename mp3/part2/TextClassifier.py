@@ -84,7 +84,8 @@ class TextClassifier(object):
 
     # [由训练集搞出来的Fit函数，对测试集进行标签预测]-----------------------------------------------------------------------
     def predict(self, dev_words_set, dev_labels, lambda_mix=0.0):
-        
+        if lambda_mix != 0.0:
+            return self.predict_extra(x_set, dev_label, lambda_mix)
         predicted_label_list = []
         correct_predictions = 0
     
@@ -139,4 +140,71 @@ class TextClassifier(object):
 
         accuracy = correct_predictions / len(dev_words_set)
         return accuracy, predicted_label_list
+    def predict_extra(self, x_set, dev_label,lambda_mix):
+        accuracy = 0.0
 
+        result = []
+        accurate_cnt = 0
+        total_dev = len(dev_label)
+        lap_sum = len(self.allwords)
+                        
+        for i in range(total_dev):
+            tmp_x = x_set[i]
+            tmp_lab = dev_label[i]
+            tmp_sum = self.label_log.copy()
+            tmp_sum_ec = self.label_log.copy()
+            weighted_sum = [0] * 15
+            weighted_sum[0] = float("-inf")
+
+            tot1=0.0
+            tot2=0.0
+            for j in range(1, 15):
+                for word in tmp_x:
+                    if word not in self.allwords:
+                        continue
+                    if word in self.word_cnt[j]:
+                        tmp_sum[j] += math.log((self.word_cnt[j][word] + 1) / (self.words_label[j] + lap_sum))
+                    else:
+                        tmp_sum[j] += math.log(1 / (self.words_label[j] + lap_sum))
+                
+                for k in range(len(tmp_x) - 1):
+                    if (tmp_x[k], tmp_x[k+1]) not in self.allbiwords:
+                        tmp_sum_ec[j] += math.log(1/100000)
+                        continue
+                    if tmp_x[k] not in self.bi:
+                        tmp_sum_ec[j] += math.log(1/100000)
+                        continue
+                    if (tmp_x[k], tmp_x[k+1]) in self.word_cnt_ec[j].keys():
+                        tmp_sum_ec[j] += math.log((self.word_cnt_ec[j][(tmp_x[k], tmp_x[k+1])] + 1) / (self.word_cnt[j][tmp_x[k]] + self.bi[tmp_x[k]]))
+                    else:
+                        if tmp_x[k] in self.word_cnt[j]:
+                            tmp_sum_ec[j] += math.log(1 / (self.word_cnt[j][tmp_x[k]] + self.bi[tmp_x[k]]))
+                        else:
+                            tmp_sum_ec[j] += math.log(1 / (self.bi[tmp_x[k]]))
+
+                
+                if tmp_x[0] in self.word_cnt[j]:
+                    tmp_sum_ec[j] += math.log(self.word_cnt[j][tmp_x[0]] / self.words_label[j] + lap_sum)
+                else:
+                    tmp_sum_ec[j] += math.log(1 / self.words_label[j] + lap_sum)
+                
+                tmp_sum[j] = math.exp(tmp_sum[j])
+                tmp_sum_ec[j] = math.exp(tmp_sum_ec[j])
+                tot1 += tmp_sum[j]
+                tot2 += tmp_sum_ec[j]
+            
+            for j in range(1, 15):
+                tmp_sum[j] = tmp_sum[j] / tot1
+                tmp_sum_ec[j] = tmp_sum_ec[j] / tot2
+                weighted_sum[j] = (1-lambda_mix) * (tmp_sum[j]) + lambda_mix * (tmp_sum_ec[j])
+                
+            inf_label = weighted_sum.index(max(weighted_sum))
+            ec_label = tmp_sum_ec.index(max(tmp_sum_ec))
+
+            result.append(inf_label)
+            if inf_label == tmp_lab:
+                accurate_cnt += 1
+
+        accuracy = accurate_cnt / total_dev
+        #print('lambda is ',lambda_mix, 'accuracy is ',accuracy,'count are ',accurate_cnt, total_dev)
+        return accuracy, result
