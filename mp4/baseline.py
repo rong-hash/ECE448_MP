@@ -14,11 +14,40 @@ Part 1: Simple baseline that only uses word statistics to predict tags
 """
 
 def baseline(train, test):
-    '''
-    input:  training data (list of sentences, with tags on the words)
-            test data (list of sentences, no tags on the words)
-    output: list of sentences, each sentence is a list of (word,tag) pairs.
-            E.g., [[(word1, tag1), (word2, tag2)], [(word3, tag3), (word4, tag4)]]
-    '''
-    
-    return []
+    word_tag_counts = {}
+    most_frequent_tag_by_word = {}
+    overall_most_frequent_tag = None
+    tag_count = {}
+
+    # Step 1: Build the word_tag_counts dictionary
+    for sentence in train:
+        for word, tag in sentence:
+            if word not in word_tag_counts:
+                word_tag_counts[word] = {}
+            if tag not in word_tag_counts[word]:
+                word_tag_counts[word][tag] = 0
+            word_tag_counts[word][tag] += 1
+            
+            # Count overall tag frequencies to determine the most common tag
+            if tag not in tag_count:
+                tag_count[tag] = 0
+            tag_count[tag] += 1
+
+    # Determine the overall most frequent tag
+    overall_most_frequent_tag = max(tag_count, key=tag_count.get)
+
+    # Step 2: Determine the most frequent tag for each word
+    for word, tags in word_tag_counts.items():
+        most_frequent_tag_by_word[word] = max(tags, key=tags.get)
+
+    # Step 3: Tag the test data
+    result = []
+    for sentence in test:
+        tagged_sentence = []
+        for word in sentence:
+            # Use the learned tags or the default tag for unseen words
+            tag = most_frequent_tag_by_word.get(word, overall_most_frequent_tag)
+            tagged_sentence.append((word, tag))
+        result.append(tagged_sentence)
+
+    return result
