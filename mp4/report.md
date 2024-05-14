@@ -21,6 +21,7 @@ The result matches the key statistics as required by the description.
 ---
 ## Section II: Viterbi Tagger I
 |Accuracy|94.32%|
+|--|--|
 |Multitags Accuracy|93.13%|
 |Unseen words Accuracy|48.16%|
 |Top K Wrong Word-Tag Predictions| [('that', {'CONJ': 197, 'DET': 187, 'PRON': 251, 'ADV': 15}), ('to', {'TO': 491, 'IN': 42, 'X': 2}), ('as', {'IN': 28, 'ADV': 194, 'CONJ': 12}), ('out', {'PART': 123, 'IN': 68})]|
@@ -31,7 +32,12 @@ We find that Viterbi I has a higher multitags accuracy than that of the baseline
 ---
 ## Section III: Viterbi Tagger II
 
-
+|Accuracy|95.66%|
+|--|--|
+|Multitags Accuracy|94.30%|
+|Unseen words Accuracy|66.74%|
+|Top K Wrong Word-Tag Predictions| [('that',{'CONJ': 155,'DET': 237, 'PRON': 249,'ADV': 15}),('to',{'TO': 150,'IN': 134,'X': 2}),('as',{'IN':28,'ADV':195,'CONJ':13}),('more',{'ADJ':100,'ADV':54，'NOUN':13})]
+|Top K Correct Word-Tag Predictions| [('the", {'DET': 13917}),(’,’,{'PERIOD': 11453}),('.",{'PERIOD': 10188}), ('of', {'IN': 7856})]|
 ---
 ## Extra Credit
 
@@ -39,7 +45,7 @@ We find that Viterbi I has a higher multitags accuracy than that of the baseline
 ---
 
 ## Statement of Contribution
-- Zhirong Chen: Finish the part 3, logistic regression
+- Zhirong Chen: Finish the baseline, viterbi_1, viterbi_2
 - Jiajun Hu: Finish part2, Bag of words task
 - Xiaoyang Chu: viterbi_1
 - Yanbing Yang: Extra Credit
