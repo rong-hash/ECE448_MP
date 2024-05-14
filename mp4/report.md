@@ -46,7 +46,7 @@ We find that Viterbi I has a higher multitags accuracy than that of the baseline
 
 ## Statement of Contribution
 - Zhirong Chen: Finish the baseline, viterbi_1, viterbi_2
-- Jiajun Hu: Finish part2, Bag of words task
+- Jiajun Hu: Also finish baseline and viterbi_1
 - Xiaoyang Chu: viterbi_1
 - Yanbing Yang: Extra Credit
 
