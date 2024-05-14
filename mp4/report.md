@@ -20,7 +20,11 @@ The result matches the key statistics as required by the description.
 
 ---
 ## Section II: Viterbi Tagger I
-
+Accuracy: 94.32%
+Multitags Accuracy: 93.13%
+        Unseen words Accuracy: 48.16%
+        Top K Wrong Word-Tag Predictions: [('that', {'CONJ': 197, 'DET': 187, 'PRON': 251, 'ADV': 15}), ('to', {'TO': 491, 'IN': 42, 'X': 2}), ('as', {'IN': 28, 'ADV': 194, 'CONJ': 12}), ('out', {'PART': 123, 'IN': 68})]
+        Top K Correct Word-Tag Predictions: [('the', {'DET': 13917}), (',', {'PERIOD': 11453}), ('.', {'PERIOD': 10100}), ('of', {'IN': 7056})]
 
 
 ---

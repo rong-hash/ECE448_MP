@@ -165,7 +165,7 @@ def viterbi_1(train, test):
                 word = item[t+1]
                 if word not in wordList:
                     word = UNKNOWN
-                viterbi = 0
+                viterbi = - math.inf
                 backpointer = 0
                 for nPast in range(N):
                     keyPast = keyList[nPast]
@@ -187,6 +187,10 @@ def viterbi_1(train, test):
             Pointer = Backpointer[TagIndex,t]
         
         retSent.reverse()
+
+        retSent.insert(0,(START_TAG,START_TAG))
+        retSent.append((END_TAG,END_TAG))
+
         retMat.append(retSent)
         
     # Part5: Return the best path through the trellis
