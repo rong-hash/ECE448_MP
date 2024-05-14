@@ -33,23 +33,14 @@ Multitags Accuracy: 93.13%
 
 ---
 ## Extra Credit
-**Accuracy at different $\lambda_{mix}$**
 
-  |$\lambda_{mix}$|<0.5|0.6~0.7|0.8|0.9|
-  |:----:|:----:|:----:|:----:|:----:|
-  |Accuracy|0.8116|0.8095|0.8012|0.7619|
-  
-**Conclusion of Bigram mixed model**
-
-The Bigram model is incorporated into the original model with a fusion ratio of 𝜆 in this section. The Bigram model considers the interaction between words within the same inference group, specifically their conditional probability. Through experimentation, it was found that the optimal accuracy is achieved when the hyper-parameter 𝜆 equals 0.6. However, this may not always be advantageous due to limited training data resulting in numerous binary word groups being absent from the model. This discrepancy is further amplified by Laplace smoothing, causing significant deviation in results when relying solely on the Bigram model.  
-The actural prediction accuracy did not varies as expect as the increasing 𝜆, which is monotone with the mixing weight. The mixing of model did not make a difference until the 𝜆 is higher than 0.6. We found the detailed accuracy for each classification is slightly diffrerent while the overall stastics analysis shows no variation when adjusting 𝜆 within a narrow range.
 
 ---
 
 ## Statement of Contribution
 - Zhirong Chen: Finish the part 3, logistic regression
 - Jiajun Hu: Finish part2, Bag of words task
-- Xiaoyang Chu: Image Classification
+- Xiaoyang Chu: viterbi_1
 - Yanbing Yang: Extra Credit
 
 
