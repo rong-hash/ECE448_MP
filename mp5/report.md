@@ -41,10 +41,10 @@ Model/Training Instability: Some inherent instability in the model or the traini
 ---
 
 ## Statement of Contribution
-- Zhirong Chen: Finish the baseline, viterbi_1, viterbi_2
-- Jiajun Hu: Also finish baseline and viterbi_1
-- Xiaoyang Chu: viterbi_1
-- Yanbing Yang: Extra Credit
+- Zhirong Chen: Finish part 2
+- Jiajun Hu: 
+- Xiaoyang Chu: 
+- Yanbing Yang: 
 
 
 
