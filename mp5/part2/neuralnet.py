@@ -115,11 +115,13 @@ def fit(train_set, train_labels, dev_set, n_iter, batch_size=100):
     losses = []
 
     for epoch in tqdm(range(n_iter)):
+        epoch_loss = 0
         for i in range(0, len(train_set), batch_size):
             batch_x = train_set[i:i + batch_size]
             batch_y = train_labels[i:i + batch_size]
             loss = net.step(batch_x, batch_y)
-            losses.append(loss)
+            epoch_loss += loss
+        losses.append(epoch_loss)
         if epoch % 20 == 0:
             print(f"Epoch {epoch + 1}/{n_iter}, Loss: {losses[-1]}")
 

@@ -18,6 +18,7 @@ import torch
 
 import reader
 import neuralnet as p
+import matplotlib.pyplot as plt
 
 
 """
@@ -52,7 +53,7 @@ def main(args):
     train_labels = torch.tensor(train_labels, dtype=torch.int64)
     dev_set = torch.tensor(dev_set, dtype=torch.float32)
 
-    _, predicted_labels, net = p.fit(train_set, train_labels, dev_set, args.max_iter)
+    loss, predicted_labels, net = p.fit(train_set, train_labels, dev_set, args.max_iter)
     accuracy, f1, precision, recall = compute_accuracies(predicted_labels, dev_set, dev_labels)
 
     print("Accuracy:", accuracy)
@@ -93,6 +94,12 @@ def main(args):
         print('The architecture used is different than what was asked for')
 
 
+    # plot loss with epoch
+    plt.plot(loss)
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Loss with Epoch')
+    plt.show()
 
     torch.save(net, "net.model")
 
