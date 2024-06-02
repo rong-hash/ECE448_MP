@@ -5,6 +5,35 @@
 
 ---
 
+## Part 1
+
+##### Snake Agent
+During the train phase, the snake agent will calculate the reward of the current state and then update the quality value of the previous state-action pair. Then it will determine the action with the greatest quality value and select that action.
+
+Durint the evaluation phase, the snake will only find the action with the greatest quality given the current state and then execute it.
+
+##### Result
+
+The following parameters are found to lead to good result.
+
+|$N_e$|$C$|$\gamma$|
+|--|--|--|
+|20|20|0.7|
+
+With the set of parameters, the model converges after around 15000 episodes of training.
+
+The average point on 1000 test games is 24.777.
+
+##### Modification
+
+The major modification made to the state is a new "recommended action" state, which is the recommended action evalutated by the state information from the game board. The state has four possible values, which correspond to four possible actions. The "recommended action" is evalutaed based on the position of the head and adjoining body segments, if any. By adding the new state variable, the minimum points gained in the testing episodes is increased. The model is trained for 20000 episodes with following parameters.
+
+|$N_e$|$C$|$\gamma$|
+|--|--|--|
+|20|20|0.7|
+
+---
+
 ## Part 2
 
 Accuracy: 0.858
