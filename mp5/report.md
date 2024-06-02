@@ -26,7 +26,7 @@ The average point on 1000 test games is 24.777.
 
 ##### Modification
 
-The major modification made to the state is a new "recommended action" state, which is the recommended action evalutated by the state information from the game board. The state has four possible values, which correspond to four possible actions. The "recommended action" is evalutaed based on the position of the head and adjoining body segments, if any. By adding the new state variable, the minimum points gained in the testing episodes is increased. The model is trained for 20000 episodes with following parameters.
+The major modification made to the state is a new "recommended action" state, which is the recommended action evalutated by the state information from the game board. The state has four possible values, which correspond to four possible actions. The "recommended action" is evalutaed based on the position of the head and adjoining body segments, if any. Folloing the recommended actions, the snake will have less chance to die in an early stage. By adding the new state variable, the minimum points gained in the testing episodes is increased. The model is trained for 20000 episodes with following parameters.
 
 |$N_e$|$C$|$\gamma$|
 |--|--|--|
@@ -65,14 +65,14 @@ Data Issues: If there is an issue with how data batches are prepared or if a cor
 
 Model/Training Instability: Some inherent instability in the model or the training process, possibly due to issues with numerical stability (e.g., very large or very small gradients leading to exploding or vanishing gradients), might also cause this. This could be exacerbated by specific activation functions or the lack of normalization layers in the network.
 
-
+## Extra Credit
 
 ---
 
 ## Statement of Contribution
 - Zhirong Chen: Finish part 2
 - Jiajun Hu: 
-- Xiaoyang Chu: 
+- Xiaoyang Chu: Part 1
 - Yanbing Yang: 
 
 
