@@ -71,7 +71,7 @@ Model/Training Instability: Some inherent instability in the model or the traini
 
 ## Statement of Contribution
 - Zhirong Chen: Finish part 2
-- Jiajun Hu: 
+- Jiajun Hu: Part 1 (Didn't succeeded)
 - Xiaoyang Chu: Part 1
 - Yanbing Yang: 
 
